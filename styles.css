@@ -1,0 +1,256 @@
+/*
+=========================================================
+Name : styles.css
+Assignment : Assignment 2
+Author(s) : Jeeya Somaiya UCID: 30173469, Jeonghyun Kim UCID: 30239102
+Submission : February 26, 2023
+Description : Styling for an e-commerce website.
+=========================================================
+*/
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #333;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+header h1 {
+    color: white; 
+    font-family: Arial, sans-serif; 
+    margin: 0;
+    margin-left: auto; 
+    margin-right: 30px; 
+}
+
+header img {
+    margin-right: 10px; 
+}
+
+/* Navigation Bar */
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    background-color: #333;
+}
+
+.navigation a {
+    padding: 10px 20px;
+    color: white; 
+    text-decoration: none; 
+    font-family: Arial, sans-serif; 
+}
+
+/* Main */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* About Us Section */
+.about-us {
+    background-color: #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    width: 90%;
+    font-family: Arial, sans-serif;
+}
+
+/* Shop Now Button */
+.shop-now {
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.shop-now button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+
+.shop-now button:hover {
+    background-color: #45a049;
+}
+
+/* Customer Reviews Section */
+.customer-reviews {
+    background-color: #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    width: 90%;
+    font-family: Arial, sans-serif;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    padding: 10px;
+    margin: 0;
+    color: white;
+    text-align: center;
+}
+
+/* Login Form Section */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    background-color: #ddd;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    width: 90%;
+    height: auto;
+}
+
+/* Form Field Styles */
+form label {
+    display: block;
+    margin: 10px;
+}
+
+form input {
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+/* Login Button Styles */
+.login-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    cursor: pointer;
+    opacity: .5
+}
+
+.login-btn:hover {
+    background-color: #45A049;
+    opacity: 1.0
+}
+
+/* Signup Link */
+.signup-link {
+    color: #007BFF;
+    text-decoration: none;
+    margin: 10px;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+/*products*/
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: #ddd;
+    padding: 20px;
+    margin: 20px;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    width: calc(50% - 80px);
+}
+
+.product:hover {
+    background-color: #ffffff; /* 마우스 오버 시 배경색 */
+  }
+
+.productimg {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.product-text {
+    color: #007BFF;
+  font-weight: bold;
+}
+
+.cart-button {
+    background-color: #4CAF50;
+    color: white;
+    border: transparent;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.cart-button:hover {
+    background-color: #45A049;
+}
+
+#cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .product {
+        width: calc(100% - 40px);
+    }
+}
+
+/*contact*/
+
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #ddd;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.contact-method {
+    background-color: #ddd;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 10px;
+}
+
+.contact-method a:hover {
+    color: #007BFF;
+}

@@ -1,0 +1,127 @@
+<!--
+=========================================================
+Name : signup.html
+Assignment : Assignment 3
+Author(s) : Jeonghyun Kim UCID: 30239102, Kosy Onyejemezi UCID: 30189156
+Submission : March 10, 2024
+Description : Signup page of an e-commerce website.
+=========================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Products</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Products page of Pat-Da-Pet online store" />
+    <meta name="keywords" content="products, rat, guineapigarmor, girlfriend, chickenharness" />
+    <meta name="author" content="Kim, Onyejemezi" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+    <header>
+        <img src="favicon.ico" alt="Logo" />
+        <h1 class="company-name">Pat-Da-Pet!</h1>
+    </header>
+
+    <div class="navigation">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+    </div>
+
+    <main>
+        <section class="login-page">
+            <form action="#" method="post">
+                <label for="username">Username:</label>
+                <input type="text" name="username" required placeholder="Enter Username">
+
+                <label for="password">Password:</label>
+                <input type="password" name="password" required placeholder="Enter Password">
+                
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" name="confirmPassword" required placeholder="Confirm Password">
+
+                <label for="email">Email:</label>
+                <input type="email" name="email" required placeholder="Enter Email">
+
+                <button type="button" class="login-btn" id="signupBtn">Signup</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const checkValid = () => {
+                const username = document.querySelector('input[name="username"]');
+                const password = document.querySelector('input[name="password"]');
+                const confirmPassword = document.querySelector('input[name="confirmPassword"]');
+                const email = document.querySelector('input[name="email"]');
+    
+                const errors = [];
+    
+                if (!/^[A-Za-z][A-Za-z0-9_-]{2,19}$/.test(username.value)) { errors.push('u'); }
+                if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'",.<>?\/`~]).{8,}$/.test(password.value)) {
+                    errors.push('p');
+                }
+                if (password.value !== confirmPassword.value) { errors.push('c'); }
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { errors.push('e'); }
+    
+                let messageContainer = document.getElementById('messageContainer');
+    
+                if (!messageContainer) {
+                    messageContainer = document.createElement('div');
+                    messageContainer.id = 'messageContainer';
+                    messageContainer.style.border = '2px';
+                    messageContainer.style.backgroundColor = '#f9f9f9';
+                    messageContainer.style.padding = '10px';
+                    messageContainer.style.margin = '20px 0';
+                    messageContainer.style.width = '92%'
+                    document.querySelector('main').appendChild(messageContainer);
+                } else {
+                    messageContainer.innerHTML = '';
+                }
+    
+                if (errors.length === 0) {
+                    const errorMessage = document.createElement('p');
+                    errorMessage.textContent = 'Successful!';
+                    messageContainer.appendChild(errorMessage);
+                } else {
+                    if (errors.includes('u')) {
+                        const errorMessage = document.createElement('p');
+                        errorMessage.textContent = 'Check the Username.';
+                        messageContainer.appendChild(errorMessage);
+                    }
+                    if (errors.includes('p')) {
+                        const errorMessage = document.createElement('p');
+                        errorMessage.textContent = 'Check the Password.';
+                        messageContainer.appendChild(errorMessage);
+                    }
+                    if (errors.includes('c')) {
+                        const errorMessage = document.createElement('p');
+                        errorMessage.textContent = 'Passwords don\'t match.';
+                        messageContainer.appendChild(errorMessage);
+                    }
+                    if (errors.includes('e')) {
+                        const errorMessage = document.createElement('p');
+                        errorMessage.textContent = 'Check the Email.';
+                        messageContainer.appendChild(errorMessage);
+                    }
+                }
+            };
+    
+            document.getElementById('signupBtn').addEventListener('click', checkValid);
+        });
+    </script>    
+</body>
+
+<footer>
+    <p>Copyright ⓒ 2024 JeongHyun Kim, Kosy Onyejemezi</p>
+</footer>
+
+</html>

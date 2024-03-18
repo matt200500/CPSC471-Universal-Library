@@ -1,0 +1,154 @@
+<!--
+=========================================================
+Name : products.html
+Assignment : Assignment 3
+Author(s) : Jeonghyun Kim UCID: 30239102, Kosy Onyejemezi UCID: 30189156
+Submission : March 10, 2024
+Description : Products page of an e-commerce website.
+=========================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Products</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Products page of Pat-Da-Pet online store" />
+    <meta name="keywords" content="products, rat, guineapigarmor, girlfriend, chickenharness" />
+    <meta name="author" content="Kim, Onyejemezi" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+    <header>
+        <img src="favicon.ico" alt="Logo" />
+        <h1 class="company-name">Pat-Da-Pet!</h1>
+    </header>
+
+    <div class="navigation">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+    </div>
+
+    <main>
+        <div class="product-list">
+            <div class="product">
+                <img class="productimg" src="./images/rat.jpg" alt="Rat" width="200" />
+                <h2>Rat</h2>
+                <p class="product-text">Price: $19.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img class="productimg" src="./images/guineapigarmor.jpg" alt="Guinea Pig Armor" width="200" />
+                <h2>Guinea Pig Armor</h2>
+                <p class="product-text">Price: $49.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img class="productimg" src="./images/woman.jpg" alt="Girlfriend" width="200" />
+                <h2>Girlfriend</h2>
+                <p class="product-text">Price: $999.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img class="productimg" src="./images/chickenharness.jpg" alt="Chicken Harness" width="200" />
+                <h2>Chicken Harness</h2>
+                <p class="product-text">Price: $34.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img class="productimg" src="./images/goosecloth.jpg" alt="Gosse Cloth" width="200" />
+                <h2>Goose Cloth</h2>
+                <p class="product-text">Price: $34.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img class="productimg" src="./images/chinchillatoy.jpg" alt="Chinchilla Toy" width="200" />
+                <h2>Chinchilla Toy</h2>
+                <p class="product-text">Price: $59.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img class="productimg" src="./images/betaaquarium.jpg" alt="Beta Aquarium" width="200" />
+                <h2>Beta Aquarium</h2>
+                <p class="product-text">Price: $119.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img class="productimg" src="./images/boy.jpg" alt="Boyfriend" width="200" />
+                <h2>Boyfriend</h2>
+                <p class="product-text">Price: $999.99</p>
+                <button class="cart-button">Add to Cart</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const cartDisplay = document.createElement("div")
+        cartDisplay.id = "cart"
+        const cartHead = document.createElement("h2")
+        cartHead.textContent = "Shopping Cart"
+        cartDisplay.appendChild(cartHead)
+        document.body.insertBefore(cartDisplay, document.querySelector("footer"))
+        
+        const cartProducts = document.createElement("div")
+        cartProducts.id = "cart-products"
+        cartDisplay.appendChild(cartProducts)
+
+        const cart = []
+
+        const updateCart = () => {
+            cartProducts.innerHTML = ''
+            cart.forEach(item => {
+                const productDiv = document.createElement('div')
+                productDiv.innerHTML = `${item.name}-${item.price}-${item.quantity}`
+                const removeButton = document.createElement('button')
+                removeButton.textContent = 'Remove'
+                removeButton.className = 'cart-button'
+                removeButton.onclick = () => removeFromCart(item.name)
+                removeButton.onmouseover = () => removeButton.style.backgroundColor = '#ff0000'
+                removeButton.onmouseleave = () => removeButton.style.backgroundColor = ''
+                productDiv.appendChild(removeButton)
+                cartProducts.appendChild(productDiv)
+            })
+        }
+
+        const addToCart = (name, price) => {
+            const existingItem = cart.find(item => item.name === name)
+            if (existingItem) {
+                existingItem.quantity += 1
+            } else {
+                cart.push({name, price, quantity: 1})
+            }
+            alert(`${name} has been added to the cart.`)
+            updateCart()
+        }
+
+        const removeFromCart = (name) => {
+            const itemIndex = cart.findIndex(item => item.name === name)
+            cart[itemIndex].quantity -= 1
+            if (cart[itemIndex].quantity === 0) {
+                cart.splice(itemIndex, 1)
+            }
+            updateCart()
+        }
+
+        document.querySelectorAll('.cart-button').forEach((button) => {
+            const product = button.parentElement
+            const name = product.querySelector('h2').textContent
+            const price = product.querySelector('.product-text').textContent.slice(8)
+            button.onclick = () => addToCart(name, price)
+        })
+    </script>
+</body>
+
+<footer>
+    <p>Copyright ⓒ 2024 JeongHyun Kim, Kosy Onyejemezi</p>
+</footer>
+
+</html>
