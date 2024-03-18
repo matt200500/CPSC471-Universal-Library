@@ -7,8 +7,9 @@ export default class App extends Component {
     super(props);
   }
 
-  render() {
-    return (<div>
+  render() { // If you want to center a page use <div className="center">
+    return (
+    <div> 
       <HomePage />
       </div>
     );
