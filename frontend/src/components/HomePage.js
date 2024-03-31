@@ -12,8 +12,6 @@ export default class HomePage extends Component {
     super(props);
 
   }
-
-
     Main(){
         return(
             <div class="navigation">
@@ -26,10 +24,7 @@ export default class HomePage extends Component {
             </div>
         );
     }
-
-
-
-
+    
   render() {
     return (
       <Router>
