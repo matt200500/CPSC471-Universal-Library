@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.contrib.auth.hashers import check_password
 from rest_framework import generics, status
+from django.contrib.auth.hashers import make_password
 from .serializers import *
 from .models import *
 from rest_framework.views import APIView
@@ -109,4 +111,29 @@ class StudyRoomView(generics.CreateAPIView):
 
 class StudyRoomBookView(generics.CreateAPIView):
     queryset = StudyroomBook.objects.all()
-    serializer_class = StudyroomBookSerializer 
+    serializer_class = StudyroomBookSerializer
+
+class LoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        user_id = request.data.get('user_id')
+        password = request.data.get('password')
+        user = User.objects.filter(user_id=user_id).first()
+        admin = Administrator.objects.filter(administrator_id=user_id).first()
+
+        if user and check_password(password, user.user_password):
+            return Response(UserSerializer(user).data)
+        elif admin and check_password(password, admin.administrator_password):
+            return Response(AdministratorSerializer(admin).data)
+        else:
+            return Response({"error": "Invalid credentials"}, status=400)
+
+class SignupView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        data['user_password'] = make_password(data['user_password'])
+        serializer = UserSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "User created successfully."}, status=201)
+        else:
+            return Response(serializer.errors, status=400)

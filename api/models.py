@@ -24,6 +24,7 @@ class Room(models.Model):
 
 class User(models.Model):
     user_id = models.IntegerField(db_column='User_ID', primary_key=True)  # Field name made lowercase.
+    user_password = models.CharField(db_column='User_password', max_length=128)
     email = models.CharField(db_column='Email', max_length=255)  # Field name made lowercase.
     firstname = models.CharField(db_column='FirstName', max_length=255)  # Field name made lowercase.
     middlename = models.CharField(db_column='MiddleName', max_length=255)  # Field name made lowercase.
@@ -36,6 +37,7 @@ class User(models.Model):
 
 class Administrator(models.Model):
     administrator_id = models.IntegerField(db_column='Administrator_ID', primary_key=True)  # Field name made  lowercase.
+    administrator_password = models.CharField(db_column='Administrator_password', max_length=128)
     email = models.CharField(db_column='Email', max_length=255)  # Field name made lowercase.
     firstname = models.CharField(db_column='FirstName', max_length=255)  # Field name made lowercase.
     middlename = models.CharField(db_column='MiddleName', max_length=255)  # Field name made lowercase.
