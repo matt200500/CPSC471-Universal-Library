@@ -12,7 +12,7 @@ export default class App extends Component {
   render() { // If you want to center a page use <div className="center">
     return (
     <div> 
-      <BrowseBooks />
+      <HomePage />
       </div>
     );
   }
