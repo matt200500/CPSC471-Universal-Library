@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import HomePage from "./HomePage";
+import BrowseBooks from "./BrowseBooks";
+import SingleBook from "./SingleBook";
 
 export default class App extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ export default class App extends Component {
   render() { // If you want to center a page use <div className="center">
     return (
     <div> 
-      <HomePage />
+      <BrowseBooks />
       </div>
     );
   }

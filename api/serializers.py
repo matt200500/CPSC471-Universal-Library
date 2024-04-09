@@ -101,3 +101,12 @@ class StudyroomBookSerializer(serializers.ModelSerializer):
         model = StudyroomBook
         fields = ('user', 'room', 'floor_no', 'time')
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['user_id', 'email', 'firstname', 'lastname', 'middlename', 'user_password']
+
+class AdministratorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Administrator
+        fields = ['administrator_id', 'email', 'firstname', 'lastname', 'middlename', 'administrator_password']
