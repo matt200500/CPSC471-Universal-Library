@@ -16,24 +16,26 @@ export default class HomePage extends Component {
   }
     Main(){
         return(
-            <div class="navigation">
-                <a href="">Home</a>
-                <a href="browse">Browse Books</a>
-                <a href="events">Events/Programs</a>
-                <a href="bookseats">Seats</a>
-                <a href="bookrooms">Private Rooms</a>
-                <a href="contact">Contact</a>
-                <a href="login">Login</a>
-                <a href="account">Account</a>
-            </div>
+            <><div class="navigation">
+            <a href="">Home</a>
+            <a href="browse">Browse Books</a>
+            <a href="events">Events/Programs</a>
+            <a href="bookseats">Seats</a>
+            <a href="bookrooms">Private Rooms</a>
+            <a href="contact">Contact</a>
+            <a href="login">Login</a>
+            <a href="account">Account</a>
+          </div><div class="stuff">
+              <h1>This is the Home page</h1>
+            </div></>
         );
     }
 
   render() {
     return (
-      <Router>
+      <><Router>
         <Routes>
-          <Route path="/" element={<this.Main/>} />
+          <Route path="" element={<this.Main />} />
           <Route path="/browse" element={<BrowseBooks />} />
           <Route path="/bookrooms" element={<BookRoomPage />} />
           <Route path="/bookseats" element={<SeatPage />} />
@@ -43,6 +45,7 @@ export default class HomePage extends Component {
           <Route path="/account" element={<AccountPage />} />
         </Routes>
       </Router>
+      </>
     );
   }
 }

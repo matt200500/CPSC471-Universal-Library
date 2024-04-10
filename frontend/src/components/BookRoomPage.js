@@ -25,6 +25,26 @@ export default class BookRoomPage extends Component {
     this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
   }
 
+  Main(){
+    return (
+      <>
+        <div className="navigation">
+          <a href="/">Home</a>
+          <a href="browse">Browse Books</a>
+          <a href="events">Events/Programs</a>
+          <a href="bookseats">Seats</a>
+          <a href="bookrooms">Private Rooms</a>
+          <a href="contact">Contact</a>
+          <a href="login">Login</a>
+          <a href="account">Account</a>
+        </div>
+        <div className="stuff">
+          <h1>This is the seat page</h1>
+        </div>
+      </>
+    );
+  };
+
   handleVotesChange(e) {
     this.setState({
       votesToSkip: e.target.value,
@@ -53,6 +73,7 @@ export default class BookRoomPage extends Component {
 
   render() {
     return (
+      <>
       <Grid container spacing={1}>
         <Grid item xs={12} align="center">
           <Typography component="h4" variant="h4">
@@ -116,6 +137,7 @@ export default class BookRoomPage extends Component {
           </Button>
         </Grid>
       </Grid>
+      </>
     );
   }
 }
