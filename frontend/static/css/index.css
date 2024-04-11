@@ -31,6 +31,7 @@ body {
   overflow: hidden;
 }
 
+/* ---------------------- BELOW IS STYLING FOR THE NAVIGATION BAR CONTAINER -------------------*/
 /* Style the links inside the navigation bar */
 .navigation a {
   float: left;
@@ -51,4 +52,79 @@ body {
 .navigation a.active {
   background-color: #bbff00;
   color: white;
+}
+
+/* ---------------------- BELOW IS STYLING FOR THE SEAT DESCRIPTION CONTAINER -------------------*/
+/* Style the h1 for the seat description container*/
+.seat-description{
+  text-align: center;
+}
+.seat-description h1 {
+  margin-bottom: 20px; 
+  color:#ffffff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: 5px solid #1b0163;
+  border-radius: 5px;
+  padding: 10px 20px;
+  display: inline-block;
+  background-color: #1b0163;
+}
+
+
+/* ---------------------- BELOW IS STYLING FOR THE SEARCH SEAT CONTAINER -------------------*/
+/* Style the search-seat container */
+.search-seat {
+  margin-bottom: 20px; 
+  text-align: center;
+}
+
+/* Style the form inputs */
+.search-seat input[type="text"] {
+  width: 200px; /* Set the width of input fields */
+  margin-right: 10px; /* Add margin between input fields */
+  padding: 5px; /* Add padding inside input fields */
+  border: 1px solid #ccc; /* Add border to input fields */
+  border-radius: 3px; /* Add border radius to input fields */
+}
+
+/* Style the search button */
+.search-seat button {
+  padding: 5px 10px; /* Add padding inside button */
+  background-color: #007bff; /* Set background color */
+  color: #fff; /* Set text color */
+  border: none; /* Remove border */
+  border-radius: 3px; /* Add border radius */
+  cursor: pointer; /* Add pointer cursor */
+}
+
+/* Style the search button on hover */
+.search-seat button:hover {
+  background-color: #0056b3; /* Darken the background color */
+}
+
+/* ---------------------- BELOW IS STYLING FOR THE SEAT LIST CONTAINER -------------------*/
+/* Style the h2 for the seat-list container */
+.seat-list{
+  text-align: center;
+}
+
+.seat-list h2 {
+  color:#ffffff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: 3px solid #000000;
+  border-radius: 1px;
+  padding: 10px 20px;
+  display: inline-block;
+  background-color: #6e6e6e;
+}
+
+
+.seat-list p{
+  color:#000000;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: 1px solid #000000;
+  border-radius: 1px;
+  padding: 10px 20px;
+  display: inline-block;
+  background-color: #ffffff;
 }

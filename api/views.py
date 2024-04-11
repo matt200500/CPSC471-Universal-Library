@@ -6,6 +6,7 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .filters import *
 
 
 # Create your views here.
@@ -104,7 +105,6 @@ class CreateSeatView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 
 
 class SeatBookView(generics.CreateAPIView):
