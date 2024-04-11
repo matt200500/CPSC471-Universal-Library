@@ -13,10 +13,10 @@ class AccountPage extends Component {
     super(props);
   }
 
-  Main(){
+  render() {
     return (
       <>
-        <div className="navigation">
+      <div className="navigation">
           <a href="/">Home</a>
           <a href="browse">Browse Books</a>
           <a href="events">Events/Programs</a>
@@ -30,26 +30,6 @@ class AccountPage extends Component {
           <h1>This is the account page</h1>
         </div>
       </>
-    );
-  };
-
-  render() {
-    return (
-      this.Main()
-      // <>
-      // <Router>
-      //   <Routes>
-      //     <Route path="/bookseats" element={<this.Main  />} />
-      //     <Route path="/browse" element={<BrowseBooks />} />
-      //     <Route path="/bookrooms" element={<BookRoomPage />} />
-      //     <Route path="/events" element={<EventPage />} />
-      //     <Route path="/contact" element={<ContactPage />} />
-      //     <Route path="/login" element={<LoginPage />} />
-      //     <Route path="/account" element={<AccountPage />} />
-      //     <Route exact path="/" element={<HomePage />} />
-      //   </Routes>
-      // </Router>
-      // </>
     );
   }
 }

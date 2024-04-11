@@ -27,7 +27,7 @@ export default class HomePage extends Component {
             <a href="account">Account</a>
           </div><div class="stuff">
               <h1>This is the Home page</h1>
-            </div></>
+          </div></>
         );
     }
 

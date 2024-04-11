@@ -13,7 +13,7 @@ class EventPage extends Component {
     super(props);
   }
 
-  Main(){
+  render() {
     return (
       <>
         <div className="navigation">
@@ -27,29 +27,9 @@ class EventPage extends Component {
           <a href="account">Account</a>
         </div>
         <div className="stuff">
-          <h1>This is the account page</h1>
+          <h1>This is the event page</h1>
         </div>
       </>
-    );
-  };
-
-  render() {
-    return (
-      this.Main()
-      // <>
-      // <Router>
-      //   <Routes>
-      //     <Route path="/bookseats" element={<this.Main  />} />
-      //     <Route path="/browse" element={<BrowseBooks />} />
-      //     <Route path="/bookrooms" element={<BookRoomPage />} />
-      //     <Route path="/events" element={<EventPage />} />
-      //     <Route path="/contact" element={<ContactPage />} />
-      //     <Route path="/login" element={<LoginPage />} />
-      //     <Route path="/account" element={<AccountPage />} />
-      //     <Route exact path="/" element={<HomePage />} />
-      //   </Routes>
-      // </Router>
-      // </>
     );
   }
 }
