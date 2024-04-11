@@ -26,20 +26,22 @@ body {
   transform: translate(-50%, -50%);
 }
 
+/* ---------------------- BELOW IS STYLING FOR THE NAVIGATION BAR CONTAINER -------------------*/
+
 .navigation {
-  background-color: #1b0163;
+  background-color: #635c75;
   overflow: hidden;
 }
 
-/* ---------------------- BELOW IS STYLING FOR THE NAVIGATION BAR CONTAINER -------------------*/
 /* Style the links inside the navigation bar */
 .navigation a {
   float: left;
   color: #ffffff;
   text-align: center;
-  padding: 14px 16px;
+  padding: 20px 20px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 /* Change the color of links on hover */
@@ -63,11 +65,11 @@ body {
   margin-bottom: 20px; 
   color:#ffffff;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  border: 5px solid #1b0163;
+  border: 5px solid #635c75;
   border-radius: 5px;
   padding: 10px 20px;
   display: inline-block;
-  background-color: #1b0163;
+  background-color: #635c75;
 }
 
 
@@ -111,7 +113,7 @@ body {
 .seat-list h2 {
   color:#ffffff;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  border: 3px solid #000000;
+  border: 3px solid #6e6e6e;
   border-radius: 1px;
   padding: 10px 20px;
   display: inline-block;
