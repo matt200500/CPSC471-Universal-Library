@@ -124,9 +124,10 @@ class SeatPage extends Component {
             value={this.state.searchCriteria.type}
           >
             <option value="">Select Type</option>
-            <option value="Large">Large</option>
-            <option value="Medium">Medium</option>
-            <option value="Small">Small</option>
+            <option value="Desk">Desk</option>
+            <option value="Couch">Couch</option>
+            <option value="Chair">Chair</option>
+            <option value="BeanBag">BeanBag</option>
           </select>
           <select
             type="text"

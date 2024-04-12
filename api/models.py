@@ -192,9 +192,10 @@ class Seat(models.Model):
             ('Occupied', 'Occupied'),
             )
     TYPE = (
-            ('Large', 'Large'),
-            ('Medium', 'Medium'),
-            ('Small', 'Small'),
+            ('Desk', 'Desk'),
+            ('Couch', 'Couch'),
+            ('Chair', 'Chair'),
+            ('BeanBag', 'BeanBag'),
             )
 
     floorno = models.ForeignKey(Floor, models.DO_NOTHING, db_column='FloorNo', unique=False)  # Field name made lowercase. The composite primary key (FloorNo, Seat_num) found, that is not supported. The first column is selected.
