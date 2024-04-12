@@ -128,6 +128,37 @@ class SeatBookView(generics.CreateAPIView):
     queryset = SeatBook.objects.all()
     serializer_class = SeatBookSerializer 
 
+from rest_framework import status
+from rest_framework.response import Response
+from .models import Seat, SeatBook
+from .serializers import SeatBookSerializer
+
+class BookSeatView(APIView):
+    def post(self, request):
+        serializer = SeatBookSerializer(data=request.data)
+        if serializer.is_valid():
+            seat_number = serializer.validated_data.get('seat_num')
+            user = serializer.validated_data.get('user')
+            time = serializer.validated_data.get('time')
+            try:
+                seat = Seat.objects.get(seat_num=seat_number)
+                if seat.status == "Occupied":
+                    return Response({'message': 'Seat is already occupied'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                # Update seat status to occupied
+                seat.status = 'Occupied'
+                seat.save()
+                
+                # Create a new SeatBook entry
+                SeatBook.objects.create(user=user, time=time, seat_num=seat)
+                
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except Seat.DoesNotExist:
+                # Handle the case where the seat does not exist
+                return Response({'message': 'Seat does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class ShelfView(generics.CreateAPIView):
     queryset = Shelf.objects.all()
     serializer_class = ShelfSerializer 

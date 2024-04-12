@@ -13,11 +13,13 @@
     <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}"
     />
   </head>
-  <body>
+  {% load static %}
+  <body background={% static 'images/library_books.jpg'%}>
     <div id='main'>
       <div id='app'></div>
     </div>
 
     <script src="{% static "frontend/main.js" %}"></script>
+    {% comment %} <img src="{% static "images/library_books.jpg" %} alt=Home" /> {% endcomment %}
   </body>
 </html>

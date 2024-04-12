@@ -45,6 +45,17 @@ export default class SignupPage extends Component {
 
   render() {
     return (
+      <>
+      <div className="navigation">
+          <a href="/">Home</a>
+          <a href="browse">Browse Books</a>
+          <a href="events">Events/Programs</a>
+          <a href="bookseats">Seats</a>
+          <a href="bookrooms">Private Rooms</a>
+          <a href="contact">Contact</a>
+          <a href="login">Login</a>
+          <a href="account">Account</a>
+      </div>
       <form onSubmit={this.handleSubmit}>
         <input
           type="email"
@@ -83,6 +94,7 @@ export default class SignupPage extends Component {
         />
         <button type="submit">Sign Up</button>
       </form>
+      </>
     );
   }
 }

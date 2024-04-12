@@ -50,23 +50,30 @@ export default class LoginPage extends Component {
           <a href="login">Login</a>
           <a href="account">Account</a>
       </div>
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          name="userId"
-          placeholder="User ID"
-          onChange={this.handleInputChange}
-          value={this.state.userId}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={this.handleInputChange}
-          value={this.state.password}
-        />
-        <button type="submit">Login</button>
-      </form>
+      <div className="login-stuff">
+        <h1>Input your Username and Password Below</h1>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            name="userId"
+            placeholder="User ID"
+            onChange={this.handleInputChange}
+            value={this.state.userId}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={this.handleInputChange}
+            value={this.state.password}
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <div className="signup-stuff">
+        <p>If you do not have an account, you can create one by pressing the button below:</p>
+        <a href="signup">Create Account</a>
+      </div>
       </>
     );
   }

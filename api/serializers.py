@@ -89,7 +89,7 @@ class CreateSeatSerializer(serializers.ModelSerializer):
 class SeatBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeatBook
-        fields = ('user', 'sear_num', 'time')
+        fields = ('user', 'seat_num', 'time')
 
 class ShelfSerializer(serializers.ModelSerializer):
     class Meta:

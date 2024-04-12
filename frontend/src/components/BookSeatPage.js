@@ -11,10 +11,17 @@ class SeatPage extends Component {
         type: "",
         status: ""
       },
+      bookCriteria:{
+        seat_number:"",
+        time:"",
+        user_id:"",
+      },
       seatData: []
     };
   }
 
+
+  // ----------------------------- FOR VIEWING THE LIST OF SEATS ---------------------------------------
   handleInputChange = (event) => {
     const { name, value } = event.target;
     this.setState({
@@ -37,7 +44,42 @@ class SeatPage extends Component {
       alert("Failed to fetch seat data");
     }
   };
+
+  // ----------------------------- FOR BOOKING A SEAT -----------------------------
+  handleSeatChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      bookCriteria: {
+        ...this.state.bookCriteria,
+        [name]: value
+      }
+    });
+  };
+
+
+  handleBookSeat = async (e) => {
+    e.preventDefault();
+    const { seat_number, time, user_id } = this.state.bookCriteria;
+    const response = await fetch(`/api/book-seat/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        seat_num: seat_number,
+        time: time,
+        user_id: user_id,
+      }),
+    });
+    
+    if (response.ok) {
+      alert("Seat booked successfully!");
+    } else {
+      alert("Failed to book seat");
+    }
+  };
   
+  // ------------------------------- RENDER PAGE BELOW -------------------------------
   render() {
     return (
       <>
@@ -99,6 +141,35 @@ class SeatPage extends Component {
           </select>
           <button type="submit">Search For Seats</button>
         </form>
+      </div>
+      <div className="Book-Seat">
+        <form onSubmit={this.handleBookSeat}>
+            <input
+              type="text"
+              name="seat_number"
+              placeholder="Seat Number"
+              onChange={this.handleSeatChange}
+              value={this.state.bookCriteria.seat_number}
+            />
+            <select
+              type="text"
+              name="Time (Hours)"
+              placeholder="Time"
+              onChange={this.handleSeatChange}
+              value={this.state.searchCriteria.status}
+            >
+              <option value="">Select Time (Hours)</option>
+              <option value="1 Hour">1</option>
+              <option value="2 Hours">2</option>
+              <option value="3 Hours">3</option>
+              <option value="4 Hours">4</option>
+              <option value="5 Hours">5</option>
+              <option value="6 Hours">6</option>
+              <option value="7 Hours">7</option>
+              <option value="8 Hours">8</option>
+            </select>
+            <button type="submit">Book Seat</button>
+          </form>
       </div>
       <div className="seat-list">
         <h2> List of Seats Within The Universal Library:</h2>

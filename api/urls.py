@@ -24,4 +24,5 @@ urlpatterns = [
     path('login', LoginView.as_view()),
     path('signup', SignupView.as_view()),
     path('seat-data/', SeatDataView.as_view(), name='seat_data'),
+    path('book-seat/', BookSeatView.as_view(), name='book_seat'),
 ]

@@ -23,6 +23,14 @@ class Room(models.Model):
 
 # -------------------------------------------------------------------------------------------------
 
+class UploadImage(models.Model):  
+    caption = models.CharField(max_length=200)  
+    image = models.ImageField(upload_to='images')  
+  
+    def __str__(self):  
+        return self.caption  
+
+
 class User(models.Model):
     user_id = models.IntegerField(db_column='User_ID', primary_key=True)  # Field name made lowercase.
     email = models.CharField(db_column='Email', max_length=255)  # Field name made lowercase.
@@ -31,6 +39,8 @@ class User(models.Model):
     middlename = models.CharField(db_column='MiddleName', max_length=255)  # Field name made lowercase.
     lastname = models.CharField(db_column='LastName', max_length=255)  # Field name made lowercase.
 
+    def __str__(self):
+        return str(self.user_id)
     class Meta:
         managed = True
         db_table = 'user'
@@ -155,11 +165,6 @@ class Floor(models.Model):
     class Meta:
         managed = False
         db_table = 'floor'
-    
-
-
-    
-
 
 class Lend(models.Model):
     account = models.OneToOneField('User', models.DO_NOTHING, db_column='Account_ID', primary_key=True)  # Field name made lowercase. The composite primary key (Account_ID, Book_ID) found, that is not supported. The first column is selected.
@@ -206,14 +211,25 @@ class Seat(models.Model):
         db_table = 'seat'
 
 class SeatBook(models.Model):
-    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Sear_num) found, that is not supported. The first column is selected.
-    sear_num = models.OneToOneField(Seat, models.DO_NOTHING, db_column='Sear_num')  # Field name made lowercase.
-    time = models.DateTimeField(db_column='Time')  # Field name made lowercase.
+    TIME = (
+            ('1', '1'),
+            ('2', '2'),
+            ('3', '3'),
+            ('4', '4'),
+            ('5', '5'),
+            ('6', '6'),
+            ('7', '7'),
+            ('8', '8'),
+            )
+    
+    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Seat_num) found, that is not supported. The first column is selected.
+    seat_num = models.OneToOneField('Seat', models.DO_NOTHING, db_column='Seat_num', unique=True)  # Field name made lowercase.
+    time = models.TextField(max_length=255, db_column='Time', choices=TIME)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'seat_book'
-        unique_together = (('user', 'sear_num'),)
+        unique_together = (('user', 'seat_num'),)
 
 
 class Shelf(models.Model):
