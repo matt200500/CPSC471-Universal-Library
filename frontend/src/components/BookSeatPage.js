@@ -5,16 +5,13 @@ class SeatPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seats: [
-      { seat_num: 11, floorno: 1, type: "Standard", status: "Available" },
-      { seat_num: 22, floorno: 1, type: "Premium", status: "Occupied" },
-      { seat_num: 33, floorno: 2, type: "Standard", status: "Available" }],
       searchCriteria: {
         seat_num: "",
         floorno: "",
         type: "",
         status: ""
-      }
+      },
+      seatData: []
     };
   }
 
@@ -28,48 +25,19 @@ class SeatPage extends Component {
     });
   };
 
-  renderSeats() {
-    // Map over the seats array and render each seat
-    return this.state.seats.map(seat => (
-      <div key={seat.seat_num}>
-        <p>Seat Number: {seat.seat_num} 
-        {'      '}Floor Number: {seat.floorno}
-        {'      '}Type: {seat.type}
-        {'      '}Status: {seat.status}</p>
-      </div>
-    ));
-  }
-
-  handleSearch() {
-    const { searchCriteria } = this.state;
-
-    // Construct the request body
-    const requestBody = JSON.stringify(searchCriteria);
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    const { seat_num, floorno, type, status } = this.state.searchCriteria;
+    const response = await fetch(`/api/seat-data?seat_num=${seat_num}&floorno=${floorno}&type=${type}&status=${status}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.setState({ seatData: data });
+    } else {
+      alert("Failed to fetch seat data");
+    }
+  };
   
-    // Send a POST request to the server
-    fetch('/api/seats/search', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: requestBody
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json(); // Parse response body as JSON
-    })
-    .then(data => {
-      // Update component state with the retrieved seats
-      this.setState({ seats: data });
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Handle error
-    });
-  }
-
   render() {
     return (
       <>
@@ -85,6 +53,10 @@ class SeatPage extends Component {
       </div>
       <div className="seat-description">
         <h1>Search For Seats By Seat Criteria</h1>
+        <p> To get started on searching a seat, fill the fields below.
+          If you do not want any criteria for a field you can leave it empty.
+          Once you have your fields set, press the "Search for Seats" button.
+          The seats which exhibit the same values as your criteria will appear in the table below</p>
       </div>
       <div className="search-seat">
         <form onSubmit={this.handleSubmit}>
@@ -93,7 +65,7 @@ class SeatPage extends Component {
             name="seat_num"
             placeholder="Seat Number"
             onChange={this.handleInputChange}
-            value={this.state.searchCriteria.userId}
+            value={this.state.searchCriteria.seat_num}
           />
           <input
             type="text"
@@ -102,40 +74,52 @@ class SeatPage extends Component {
             onChange={this.handleInputChange}
             value={this.state.searchCriteria.floorno}
           />
-          <input
+          <select
             type="text"
             name="type"
             placeholder="Type"
             onChange={this.handleInputChange}
             value={this.state.searchCriteria.type}
-          />
-          <input
+          >
+            <option value="">Select Type</option>
+            <option value="Large">Large</option>
+            <option value="Medium">Medium</option>
+            <option value="Small">Small</option>
+          </select>
+          <select
             type="text"
             name="status"
             placeholder="Status"
             onChange={this.handleInputChange}
             value={this.state.searchCriteria.status}
-          />
+          >
+            <option value="">Select Status</option>
+            <option value="Available">Available</option>
+            <option value="Occupied">Occupied</option>
+          </select>
           <button type="submit">Search For Seats</button>
         </form>
       </div>
       <div className="seat-list">
         <h2> List of Seats Within The Universal Library:</h2>
-        <table>
+      </div>
+      <div className="table_container">
+        <table border='1'>
           <tr>
             <th>Seat Number</th>
             <th>Floor Number</th>
             <th>Type</th>
             <th>Status</th>
           </tr>
-          <tr>
-            <td></td>
-          </tr>
+          {this.state.seatData.map(seat => (
+            <tr key={seat.seat_num}>
+              <td>{seat.seat_num}</td>
+              <td>{seat.floorno_id}</td>
+              <td>{seat.type}</td>
+              <td>{seat.status}</td>
+            </tr>
+          ))}
         </table>
-      </div>
-      <div className="Seat-Grid">
-        <h2>All Seats</h2>
-        {this.renderSeats()}
       </div>
       </>
     );

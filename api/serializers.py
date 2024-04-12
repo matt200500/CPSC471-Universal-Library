@@ -14,12 +14,12 @@ class CreateRoomSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('user_id', 'email', 'firstname', 'middlename', 'lastname')
+        fields = ('user_id','user_password', 'email', 'firstname', 'middlename', 'lastname')
 
 class AdministratorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administrator
-        fields = ('administrator_id', 'email', 'firstname', 'middlename', 'lastname')
+        fields = ('administrator_id','administrator_password', 'email', 'firstname', 'middlename', 'lastname')
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,6 +81,11 @@ class SeatSerializer(serializers.ModelSerializer):
         model = Seat
         fields = ('floorno', 'seat_num', 'type', 'status')
 
+class CreateSeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Seat
+        fields = ('floorno', 'seat_num', 'type', 'status')
+
 class SeatBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeatBook
@@ -100,13 +105,3 @@ class StudyroomBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudyroomBook
         fields = ('user', 'room', 'floor_no', 'time')
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['user_id', 'email', 'firstname', 'lastname', 'middlename', 'user_password']
-
-class AdministratorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Administrator
-        fields = ['administrator_id', 'email', 'firstname', 'lastname', 'middlename', 'administrator_password']

@@ -23,4 +23,5 @@ urlpatterns = [
     path('BookStudyRoom', StudyRoomBookView.as_view()),
     path('login', LoginView.as_view()),
     path('signup', SignupView.as_view()),
+    path('seat-data/', SeatDataView.as_view(), name='seat_data'),
 ]

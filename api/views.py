@@ -6,8 +6,11 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import request
 from .filters import *
-
+from django.http import HttpResponse
+from django.template import loader
+from django.http import JsonResponse
 
 # Create your views here.
 class RoomView(generics.ListAPIView):
@@ -96,17 +99,31 @@ class PhoneView(generics.CreateAPIView):
 
 class SeatView(generics.CreateAPIView):
     queryset = Seat.objects.all()
-    serializer_class = SeatSerializer 
+    serializer_class = SeatSerializer
 
-class CreateSeatView(APIView):
-    def post(self, request, format=None):
-        serializer = SeatSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from django.http import JsonResponse
 
+class SeatDataView(APIView):
+    def get(self, request):
+        seat_num = request.GET.get('seat_num')
+        floorno = request.GET.get('floorno')
+        type = request.GET.get('type')
+        status = request.GET.get('status')
+        queryset = Seat.objects.all()
 
+        if seat_num:
+            queryset = queryset.filter(seat_num=seat_num)
+        if floorno:
+            queryset = queryset.filter(floorno=floorno)
+        if type:
+            queryset = queryset.filter(type=type)
+        if status:
+            queryset = queryset.filter(status=status)
+
+        data = list(queryset.values())
+        return JsonResponse(data, safe=False)
+
+        
 class SeatBookView(generics.CreateAPIView):
     queryset = SeatBook.objects.all()
     serializer_class = SeatBookSerializer 

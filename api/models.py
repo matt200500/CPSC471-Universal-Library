@@ -19,42 +19,48 @@ class Room(models.Model):
     guest_can_pause = models.BooleanField(null=False, default=False)
     votes_to_skip = models.IntegerField(null=False, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+    penis_number = models.CharField(max_length=10, default=1)
 
 # -------------------------------------------------------------------------------------------------
 
 class User(models.Model):
     user_id = models.IntegerField(db_column='User_ID', primary_key=True)  # Field name made lowercase.
-    user_password = models.CharField(db_column='User_password', max_length=128)
     email = models.CharField(db_column='Email', max_length=255)  # Field name made lowercase.
+    User_password = models.CharField(db_column='User_password', max_length=255)
     firstname = models.CharField(db_column='FirstName', max_length=255)  # Field name made lowercase.
     middlename = models.CharField(db_column='MiddleName', max_length=255)  # Field name made lowercase.
     lastname = models.CharField(db_column='LastName', max_length=255)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'user'
         db_table_comment = 'Table for users in website'
 
 class Administrator(models.Model):
     administrator_id = models.IntegerField(db_column='Administrator_ID', primary_key=True)  # Field name made  lowercase.
-    administrator_password = models.CharField(db_column='Administrator_password', max_length=128)
+    Administrator_password = models.CharField(db_column='Administrator_password', max_length=128)
     email = models.CharField(db_column='Email', max_length=255)  # Field name made lowercase.
     firstname = models.CharField(db_column='FirstName', max_length=255)  # Field name made lowercase.
     middlename = models.CharField(db_column='MiddleName', max_length=255)  # Field name made lowercase.
     lastname = models.CharField(db_column='LastName', max_length=255)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'administrator'
 
 class Book(models.Model):
+    STATUS = (
+            ('Available', 'Available'),
+            ('Taken', 'Taken'),
+            )
+
     book_id = models.IntegerField(primary_key=True)
     title = models.CharField(db_column='Title', max_length=255)  # Field name made lowercase.
     publisher = models.CharField(db_column='Publisher', max_length=255)  # Field name made lowercase.
     publish_date = models.DateField(db_column='Publish_Date')  # Field name made lowercase.
     catalog = models.CharField(db_column='Catalog', max_length=255)  # Field name made lowercase.
     genre = models.CharField(db_column='Genre', max_length=255)  # Field name made lowercase.
-    status = models.CharField(db_column='Status', max_length=255)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
     shelf_no = models.ForeignKey('Shelf', models.DO_NOTHING, db_column='Shelf_No', to_field='Shelf_no')  # Field name made lowercase.
 
     class Meta:
@@ -94,10 +100,14 @@ class Event(models.Model):
 
 
 class EventHall(models.Model):
+    STATUS = (
+            ('Available', 'Available'),
+            ('Occupied', 'Occupied'),
+            )
     floor_no = models.OneToOneField('Floor', models.DO_NOTHING, db_column='Floor_No', primary_key=True)  # Field name made lowercase. The composite primary key (Floor_No, Room_ID) found, that is not supported. The first column is selected.
     room_id = models.IntegerField(db_column='Room_ID', unique=True)  # Field name made lowercase.
     max_occupancy = models.IntegerField(db_column='Max Occupancy')  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    status = models.CharField(db_column='Status', max_length=255)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -139,9 +149,16 @@ class Facilities(models.Model):
 class Floor(models.Model):
     floorno = models.IntegerField(db_column='FloorNo', primary_key=True)  # Field name made lowercase.
 
+    def __str__(self):
+        return str(self.floorno)
+    
     class Meta:
         managed = False
         db_table = 'floor'
+    
+
+
+    
 
 
 class Lend(models.Model):
@@ -165,16 +182,28 @@ class Phone(models.Model):
 
 
 class Seat(models.Model):
-    floorno = models.OneToOneField(Floor, models.DO_NOTHING, db_column='FloorNo', primary_key=True)  # Field name made lowercase. The composite primary key (FloorNo, Seat_num) found, that is not supported. The first column is selected.
-    seat_num = models.IntegerField(db_column='Seat_num', unique=True)  # Field name made lowercase.
-    type = models.CharField(db_column='Type', max_length=255)  # Field name made lowercase.
-    status = models.CharField(db_column='Status', max_length=255)  # Field name made lowercase.
+    STATUS = (
+            ('Available', 'Available'),
+            ('Occupied', 'Occupied'),
+            )
+    TYPE = (
+            ('Large', 'Large'),
+            ('Medium', 'Medium'),
+            ('Small', 'Small'),
+            )
 
+    floorno = models.ForeignKey(Floor, models.DO_NOTHING, db_column='FloorNo', unique=False)  # Field name made lowercase. The composite primary key (FloorNo, Seat_num) found, that is not supported. The first column is selected.
+    seat_num = models.IntegerField(db_column='Seat_num', primary_key=True)  # Field name made lowercase.
+    type = models.CharField(db_column='Type', max_length=255, choices=TYPE)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
+    
+
+    def __str__(self):
+        return str(self.seat_num)
+    
     class Meta:
-        managed = False
+        managed = True
         db_table = 'seat'
-        unique_together = (('floorno', 'seat_num'),)
-
 
 class SeatBook(models.Model):
     user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Sear_num) found, that is not supported. The first column is selected.
@@ -198,11 +227,20 @@ class Shelf(models.Model):
 
 
 class StudyRoom(models.Model):
+    STATUS = (
+            ('Available', 'Available'),
+            ('Occupied', 'Occupied'),
+            )
+    
+    HASTV = (
+            ('True', 'True'),
+            ('False', 'False'),
+            )
     floor_no = models.OneToOneField(Floor, models.DO_NOTHING, db_column='Floor_No', primary_key=True)  # Field name made lowercase. The composite primary key (Floor_No, Room_ID) found, that is not supported. The first column is selected.
     room_id = models.IntegerField(db_column='Room_ID', unique=True)  # Field name made lowercase.
     max_occupancy = models.IntegerField(db_column='Max_Occupancy')  # Field name made lowercase.
-    status = models.CharField(db_column='Status', max_length=255)  # Field name made lowercase.
-    hastv = models.IntegerField(db_column='HasTv')  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
+    hastv = models.IntegerField(db_column='HasTv',choices=HASTV)  # Field name made lowercase.
 
     class Meta:
         managed = False

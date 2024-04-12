@@ -73,6 +73,21 @@ body {
 }
 
 
+.seat-description p {
+  color:#ffffff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: 5px solid #9589b4;
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: #9589b4;
+  font-size: 20x;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 /* ---------------------- BELOW IS STYLING FOR THE SEARCH SEAT CONTAINER -------------------*/
 /* Style the search-seat container */
 .search-seat {
@@ -80,28 +95,36 @@ body {
   text-align: center;
 }
 
+.search-seat select {
+  width: 200px; 
+  margin-right: 10px; 
+  padding: 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 3px; 
+}
+
 /* Style the form inputs */
 .search-seat input[type="text"] {
-  width: 200px; /* Set the width of input fields */
-  margin-right: 10px; /* Add margin between input fields */
-  padding: 5px; /* Add padding inside input fields */
-  border: 1px solid #ccc; /* Add border to input fields */
-  border-radius: 3px; /* Add border radius to input fields */
+  width: 200px; 
+  margin-right: 10px; 
+  padding: 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 3px; 
 }
 
 /* Style the search button */
 .search-seat button {
-  padding: 5px 10px; /* Add padding inside button */
-  background-color: #007bff; /* Set background color */
-  color: #fff; /* Set text color */
-  border: none; /* Remove border */
-  border-radius: 3px; /* Add border radius */
-  cursor: pointer; /* Add pointer cursor */
+  padding: 5px 10px; 
+  background-color: #007bff;
+  color: #fff; 
+  border: none; 
+  border-radius: 3px;
+  cursor: pointer; 
 }
 
 /* Style the search button on hover */
 .search-seat button:hover {
-  background-color: #0056b3; /* Darken the background color */
+  background-color: #0056b3; 
 }
 
 /* ---------------------- BELOW IS STYLING FOR THE SEAT LIST CONTAINER -------------------*/
@@ -129,4 +152,48 @@ body {
   padding: 10px 20px;
   display: inline-block;
   background-color: #ffffff;
+}
+
+
+.table_container{
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+
+/* Apply styles to the table */
+table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  text-align: center;
+  border-collapse: collapse; 
+  border: 1px solid #ddd;
+}
+
+/* Style table headers */
+th {
+  background-color: #f2f2f2;
+  padding: 8px; 
+  border: 1px solid #ddd; 
+}
+
+/* Style table rows */
+tr {
+  border: 1px solid #ddd; /* Add a border around rows */
+}
+
+/* Style table cells */
+td {
+  padding: 8px; /* Add padding inside cells */
+  border: 1px solid #ddd; 
+}
+
+/* Style alternate rows differently */
+tr:nth-child(even) {
+  background-color: #f9f9f9; 
+}
+
+/* Style when hovering over rows */
+tr:hover {
+  background-color: #f5f5f5; 
 }
