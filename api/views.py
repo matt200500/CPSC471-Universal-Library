@@ -283,19 +283,79 @@ class CreateAdmin(APIView):
         else:
             return JsonResponse({'message': 'Some inputs are invalid'}, safe=False)
 
+class EditUser(APIView):
+    def get(self, request):
+        user_id = request.headers.get('userId')
+        email = request.headers.get('email')
+        firstname = request.headers.get('firstname')
+        middlename = request.headers.get('middlename')
+        lastname = request.headers.get('lastname')
+        User_password = request.headers.get('User_password')
+        print("id is: ", user_id)
+        print("email is: ", email)
+        print("firstname is: ", firstname)
+        print("middlename is: ", middlename)
+        print("lastnmae is: ", lastname)
+        print("password is: ", User_password)
+
+        if user_id == None:
+            return JsonResponse({'message': 'UserID invalid'}, safe=False)
+        
+        user = User.objects.filter(user_id=user_id).first()
+        if email != None:
+            user.email = email
+            user.save()
+        if firstname != None:
+            user.firstname = firstname
+            user.save()
+        if middlename != None:
+            user.middlename = middlename
+            user.save()
+        if lastname != None:
+            user.lastname = lastname
+            user.save()
+        if User_password != None:
+            user.User_password = User_password
+            user.save()
+        
+        queryset = User.objects.all()
+        queryset = queryset.filter(user_id=user_id)
+        queryset = queryset.filter(email=user.email)
+        queryset = queryset.filter(firstname=user.firstname)
+        queryset = queryset.filter(middlename=user.middlename)
+        queryset = queryset.filter(lastname=user.lastname)
+        queryset = queryset.filter(User_password=user.User_password)
+        data = list(queryset.values())
+        return JsonResponse(data, safe=False)
+
 class AccountView(APIView):
     def get(self, request):
         user_id = request.headers.get('userId')
-        if not user_id:
-            return Response({"error": "User ID not provided"}, status=400)
-
         user = User.objects.filter(user_id=user_id).first()
-        if not user:
-            return Response({"error": "User not found"}, status=404)
+        print(user_id)
+        queryset = User.objects.all()
+        queryset = queryset.filter(user_id=user_id)
+        queryset = queryset.filter(email=user.email)
+        queryset = queryset.filter(firstname=user.firstname)
+        queryset = queryset.filter(middlename=user.middlename)
+        queryset = queryset.filter(lastname=user.lastname)
+        queryset = queryset.filter(User_password=user.User_password)
+        data = list(queryset.values())
+        return JsonResponse(data, safe=False)
+
+# class AccountView(APIView):
+#     def get(self, request):
+#         user_id = request.headers.get('userId')
+#         if not user_id:
+#             return Response({"error": "User ID not provided"}, status=400)
+
+#         user = User.objects.filter(user_id=user_id).first()
+#         if not user:
+#             return Response({"error": "User not found"}, status=404)
         
-        user_data = UserSerializer(user).data
-        user_data['books'] = BookRentSerializer(BookRent.objects.filter(user=user_id), many=True).data
-        user_data['seats'] = SeatBookSerializer(SeatBook.objects.filter(user=user_id), many=True).data
-        user_data['rooms'] = StudyroomBookSerializer(StudyroomBook.objects.filter(user=user_id), many=True).data
-        user_data['events'] = EventApplySerializer(EventApply.objects.filter(user=user_id), many=True).data
-        return Response(user_data)
+#         user_data = UserSerializer(user).data
+#         user_data['books'] = BookRentSerializer(BookRent.objects.filter(user=user_id), many=True).data
+#         user_data['seats'] = SeatBookSerializer(SeatBook.objects.filter(user=user_id), many=True).data
+#         user_data['rooms'] = StudyroomBookSerializer(StudyroomBook.objects.filter(user=user_id), many=True).data
+#         user_data['events'] = EventApplySerializer(EventApply.objects.filter(user=user_id), many=True).data
+#         return Response(user_data)

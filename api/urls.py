@@ -30,5 +30,6 @@ urlpatterns = [
     path('create-room/', CreateRoomView.as_view(), name='create-room'),
     path('create-seat/', CreateSeatView.as_view(), name='create-seat'),
     path('create-admin/', CreateAdmin.as_view(), name='create-admin'),
+    path('edit-user/', EditUser.as_view(), name='edit-user'),
     path('account/', AccountView.as_view(), name='account'),
 ]
