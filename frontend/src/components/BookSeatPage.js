@@ -79,6 +79,8 @@ class SeatPage extends Component {
     }
   };
   
+
+
   // ------------------------------- RENDER PAGE BELOW -------------------------------
   render() {
     return (

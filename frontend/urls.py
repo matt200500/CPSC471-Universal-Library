@@ -18,6 +18,3 @@ urlpatterns = [
         path('account', index),
         path('signup', index),
         ]
-
-
-urlpatterns += staticfiles_urlpatterns()

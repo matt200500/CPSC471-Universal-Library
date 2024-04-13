@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import checkLogin from "./App";
 
 export default class BookRoomPage extends Component {
   defaultVotes = 2;
@@ -24,7 +25,7 @@ export default class BookRoomPage extends Component {
     this.handleVotesChange = this.handleVotesChange.bind(this);
     this.handleGuestCanPauseChange = this.handleGuestCanPauseChange.bind(this);
   }
-
+  
   handleVotesChange(e) {
     this.setState({
       votesToSkip: e.target.value,
@@ -65,7 +66,7 @@ export default class BookRoomPage extends Component {
           <a href="account">Account</a>
         </div>
       <Grid container spacing={1}>
-        <Grid item xs={12} align="center">
+        <Grid item xs={12} align="center">  
           <Typography component="h4" variant="h4">
             Create A Room
           </Typography>
