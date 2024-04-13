@@ -80,7 +80,6 @@ export default class BookRoomPage extends Component {
   //   }
   // };
 
-
   render() {
     return (
       <>
@@ -161,20 +160,20 @@ export default class BookRoomPage extends Component {
             />
             <select
               type="text"
-              name="Time (Hours)"
-              placeholder="Time"
+              name="time"
+              placeholder="time"
               onChange={this.handleSeatChange}
               value={this.state.bookCriteria.time}
             >
               <option value="">Select Time (Hours)</option>
-              <option value="1 Hour">1</option>
-              <option value="2 Hours">2</option>
-              <option value="3 Hours">3</option>
-              <option value="4 Hours">4</option>
-              <option value="5 Hours">5</option>
-              <option value="6 Hours">6</option>
-              <option value="7 Hours">7</option>
-              <option value="8 Hours">8</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
             </select>
             <button type="submit">Book Room</button>
           </form>

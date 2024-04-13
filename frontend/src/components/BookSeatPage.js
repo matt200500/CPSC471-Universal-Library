@@ -12,6 +12,7 @@ class SeatPage extends Component {
         status: ""
       },
       bookCriteria:{
+        user_id:'',
         seat_number:"",
         time:"",
       },
@@ -54,31 +55,60 @@ class SeatPage extends Component {
     });
   };
 
-  handleBookSeat = async (event) => {
-    
-    event.preventDefault();
+handleBookSeat = async (event) => {
+  event.preventDefault();
+  const user_id = localStorage.getItem('user_id');
+  if (user_id == null) {
+    alert('User has not logged in');
+    return;
+  }
 
-    try {
-      const response = await fetch('/api/book-seat/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.state.bookCriteria)
-      });
-
-      if (response.ok) {
-        // Seat booked successfully, handle success action
-        console.log('Seat booked successfully');
-      } else {
-        // Handle error response
-        console.error('Failed to book seat');
-      }
-    } catch (error) {
-      // Handle network errors
-      console.error('Network error:', error);
+  // Update the bookCriteria object with user_id
+  this.setState({
+    bookCriteria: {
+      ...this.state.bookCriteria,
+      user_id: user_id
     }
-  };
+  });
+
+  try {
+    const response = await fetch('/api/book-seat/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state.bookCriteria)
+    });
+
+    if (response.ok) {
+      // Seat booked successfully, handle success action
+      console.log('Seat booked successfully');
+    } else {
+      // Handle error response
+      console.error('Failed to book seat');
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error('Network error:', error);
+  }
+};
+
+// Function to retrieve CSRF token from cookie
+getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
   
 
   // ------------------------------- RENDER PAGE BELOW -------------------------------
@@ -156,20 +186,20 @@ class SeatPage extends Component {
             />
             <select
               type="text"
-              name="Time (Hours)"
-              placeholder="Time"
+              name="time"
+              placeholder="time"
               onChange={this.handleSeatChange}
-              value={this.state.searchCriteria.status}
+              value={this.state.searchCriteria.time}
             >
               <option value="">Select Time (Hours)</option>
-              <option value="1 Hour">1</option>
-              <option value="2 Hours">2</option>
-              <option value="3 Hours">3</option>
-              <option value="4 Hours">4</option>
-              <option value="5 Hours">5</option>
-              <option value="6 Hours">6</option>
-              <option value="7 Hours">7</option>
-              <option value="8 Hours">8</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
             </select>
             <button type="submit">Book Seat</button>
           </form>

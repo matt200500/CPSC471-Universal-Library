@@ -77,9 +77,11 @@ class CreateSeatSerializer(serializers.ModelSerializer):
         fields = ('floorno', 'seat_num', 'type', 'status')
 
 class SeatBookSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField()
+    seat_number = serializers.IntegerField()
     class Meta:
         model = SeatBook
-        fields = ('user', 'seat_num', 'time')
+        fields = ('user_id', 'seat_number', 'time')
 
 class ShelfSerializer(serializers.ModelSerializer):
     class Meta:

@@ -204,14 +204,14 @@ class SeatBook(models.Model):
             ('8', '8'),
             )
     
-    user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Seat_num) found, that is not supported. The first column is selected.
-    seat_num = models.OneToOneField('Seat', models.DO_NOTHING, db_column='Seat_num', unique=True)  # Field name made lowercase.
+    user_id = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Seat_num) found, that is not supported. The first column is selected.
+    seat_number = models.OneToOneField('Seat', models.DO_NOTHING, db_column='Seat_num', unique=True)  # Field name made lowercase.
     time = models.TextField(max_length=255, db_column='Time', choices=TIME)  # Field name made lowercase.
 
     class Meta:
         managed = True
         db_table = 'seat_book'
-        unique_together = (('user', 'seat_num'),)
+        unique_together = (('user_id', 'seat_number'),)
 
 
 class Shelf(models.Model):

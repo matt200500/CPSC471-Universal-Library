@@ -11,6 +11,9 @@ from .filters import *
 from django.http import HttpResponse
 from django.template import loader
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 
 class UserView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -93,30 +96,42 @@ class SeatBookView(generics.CreateAPIView):
     queryset = SeatBook.objects.all()
     serializer_class = SeatBookSerializer 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class BookSeatView(APIView):
-    def post(self, request):
+    def post(self, request, format=None):
+        print("we got here")
+        print(request.data)
         serializer = SeatBookSerializer(data=request.data)
         if serializer.is_valid():
-            seat_number = serializer.validated_data.get('seat_num')
-            user = serializer.validated_data.get('user')
+            seat_number = serializer.validated_data.get('seat_number')
+            user_id = serializer.validated_data.get('user_id')
             time = serializer.validated_data.get('time')
+            print("seat number is", type(seat_number))
+            print("user id is:", type(user_id))
+            print("time is", type(time))
             try:
+                print("GOT OVER HERE1111323132333333333333333", time)
                 seat = Seat.objects.get(seat_num=seat_number)
+                print("GOT OVER HERE1111", time)
                 if seat.status == "Occupied":
+                    print("poop")
                     return Response({'message': 'Seat is already occupied'}, status=status.HTTP_400_BAD_REQUEST)
                 
+                print("GOT OVER HERE", time)
+
                 # Update seat status to occupied
                 seat.status = 'Occupied'
                 seat.save()
                 
                 # Create a new SeatBook entry
-                SeatBook.objects.create(user=user, time=time, seat_num=seat)
+                SeatBook.objects.create(user_id=user_id, time=time, seat_number=seat_number)
                 
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except Seat.DoesNotExist:
                 # Handle the case where the seat does not exist
                 return Response({'message': 'Seat does not exist'}, status=status.HTTP_404_NOT_FOUND)
         else:
+            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ShelfView(generics.CreateAPIView):
