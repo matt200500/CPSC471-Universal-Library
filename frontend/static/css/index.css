@@ -292,7 +292,6 @@ tr:hover {
 }
 
 .login-stuff h1 {
-  margin-bottom: 40px; 
   color:#ffffff;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   border: 5px solid #635c75;
@@ -300,6 +299,20 @@ tr:hover {
   padding: 10px 20px;
   display: inline-block;
   background-color: #635c75;
+}
+
+.login-stuff .login-text {
+  color: #ffffff;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: 1px solid #9589b4;
+  border-radius: 1px;
+  padding: 10px 1px;
+  background-color: #9589b4;
+  font-size: 20x;
+  margin-bottom: 20px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Style the form inputs */
