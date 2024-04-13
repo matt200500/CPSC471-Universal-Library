@@ -164,6 +164,17 @@ class LoginView(APIView):
             return JsonResponse({'user_id': user.user_id}, safe=False)
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=400)
+        
+class AdminLoginView(APIView):
+    def get(self, request):
+        administrator_id = request.GET.get('administrator_id')
+        Administrator_password = request.GET.get('Administrator_password')
+        queryset = Administrator.objects.all()
+        administrator = queryset.filter(administrator_id=administrator_id).first() 
+        if administrator and administrator.Administrator_password == Administrator_password:
+            return JsonResponse({'administrator': administrator.administrator_id}, safe=False)
+        else:
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
 
 class SignupView(APIView):
     def post(self, request, *args, **kwargs):

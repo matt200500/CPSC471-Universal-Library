@@ -21,6 +21,7 @@ urlpatterns = [
     path('StudyRoom', StudyRoomView.as_view()),
     path('BookStudyRoom', StudyRoomBookView.as_view()),
     path('login/', LoginView.as_view(), name='login'),
+    path('adminlogin/', AdminLoginView.as_view(), name='adminlogin'),
     path('signup', SignupView.as_view()),
     path('seat-data/', SeatDataView.as_view(), name='seat_data'),
     path('room-data/', RoomDataView.as_view(), name='room-data'),
