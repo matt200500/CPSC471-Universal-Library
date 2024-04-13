@@ -81,8 +81,6 @@ export default class BookRoomPage extends Component {
   // };
 
 
-
-
   render() {
     return (
       <>
