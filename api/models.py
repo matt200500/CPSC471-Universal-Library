@@ -44,12 +44,20 @@ class Book(models.Model):
             ('Available', 'Available'),
             ('Taken', 'Taken'),
             )
+    
+    GENRE = (
+            ('Horror', 'Horror'),
+            ('Fantasy', 'Fantasy'),
+            ('TextBooks', 'Textbooks'),
+            ('ScienceFiction', 'ScienceFiction'),
+            ('Children', 'Children'),
+            )
 
     book_id = models.IntegerField(primary_key=True)
     title = models.CharField(db_column='Title', max_length=255)  # Field name made lowercase.
     publisher = models.CharField(db_column='Publisher', max_length=255)  # Field name made lowercase.
     catalog = models.CharField(db_column='Catalog', max_length=255)  # Field name made lowercase.
-    genre = models.CharField(db_column='Genre', max_length=255)  # Field name made lowercase.
+    genre = models.CharField(db_column='Genre', max_length=255, choices=GENRE)  # Field name made lowercase.
     status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
     shelf_no = models.ForeignKey('Shelf', models.DO_NOTHING, db_column='Shelf_No', to_field='Shelf_no')  # Field name made lowercase.
 
@@ -70,13 +78,12 @@ class BookAuthors(models.Model):
 
 class BookRent(models.Model):
     user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Book_ID) found, that is not supported. The first column is selected.
-    book = models.OneToOneField(Book, models.DO_NOTHING, db_column='Book_ID')  # Field name made lowercase.
-    lending_time = models.DateField(db_column='Lending_Time')  # Field name made lowercase.
+    book = models.OneToOneField('Book', models.DO_NOTHING, db_column='Book_ID')  # Field name made lowercase.
+    time = models.CharField(max_length=255, db_column='Lending_Time')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'book_rent'
-        unique_together = (('user', 'book'),)
 
 class Event(models.Model):
     event_id = models.IntegerField(db_column='Event_ID', primary_key=True)  # Field name made lowercase.
@@ -201,6 +208,12 @@ class SeatBook(models.Model):
             ('6', '6'),
             ('7', '7'),
             ('8', '8'),
+            ('9', '9'),
+            ('10', '10'),
+            ('11', '11'),
+            ('12', '12'),
+            ('13', '13'),
+            ('14', '14'),
             )
     
     user_id = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Seat_num) found, that is not supported. The first column is selected.
@@ -212,17 +225,17 @@ class SeatBook(models.Model):
             return str(self.user_id)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'seat_book'
 
 class Shelf(models.Model):
-    floor_no = models.OneToOneField(Floor, models.DO_NOTHING, db_column='Floor_No', primary_key=True)  # Field name made lowercase. The composite primary key (Floor_No, Shelf_No) found, that is not supported. The first column is selected.
-    Shelf_no = models.IntegerField(db_column='Shelf_No', unique=True)  # Field name made lowercase.
-
+    floor_no = models.ForeignKey(Floor, models.DO_NOTHING, db_column='Floor_No', unique=False)  # Field name made lowercase. The composite primary key (Floor_No, Shelf_No) found, that is not supported. The first column is selected.
+    Shelf_no = models.IntegerField(db_column='Shelf_No', primary_key=True)  # Field name made lowercase.
+    def __str__(self):
+            return str(self.Shelf_no)
     class Meta:
         managed = False
         db_table = 'shelf'
-        unique_together = (('floor_no', 'Shelf_no'),)
 
 
 class StudyRoom(models.Model):

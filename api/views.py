@@ -75,22 +75,12 @@ class BrowseBooksView(APIView):
         data = list(queryset.values())
         return JsonResponse(data, safe=False)
 
-class ClaimBookView(APIView):
-    def get(self, request):
-        is_disabled = request.GET.get('is_disabled');
-        book_id = request.GET.get('book_id');
-        user_id = request.GET.get('user_id');
-
-        # try:
-
-        # except:
-
 class BookDataView(APIView):
     def get(self, request):
-        print("i am here")
         book_id = request.GET.get('book_id')
         title = request.GET.get('title')
         publisher = request.GET.get('publisher')
+        catalog = request.GET.get('catalog')
         genre = request.GET.get('genre')
         status = request.GET.get('status')
         shelf_no = request.GET.get('shelf_no')
@@ -102,6 +92,8 @@ class BookDataView(APIView):
             queryset = queryset.filter(title=title)
         if publisher:
             queryset = queryset.filter(publisher=publisher)
+        if catalog:
+            queryset = queryset.filter(catalog=catalog)    
         if genre:
             queryset = queryset.filter(genre=genre)
         if status:
@@ -111,6 +103,55 @@ class BookDataView(APIView):
 
         data = list(queryset.values())
         return JsonResponse(data, safe=False)
+
+class CreateBookView(APIView):
+    def get(self, request):
+        book_id = request.GET.get('book_id')
+        title = request.GET.get('title')
+        publisher = request.GET.get('publisher')
+        catalog = request.GET.get('catalog')
+        genre = request.GET.get('genre')
+        status = request.GET.get('status')
+        shelf_no = request.GET.get('shelf_no')
+
+        if book_id != None and title != None and publisher != None and genre != None and status != None and shelf_no != None:
+            shelf = Shelf.objects.get(Shelf_no=shelf_no)
+            try:
+                book = Book.objects.get(book_id=book_id)
+                return JsonResponse({'message': 'book already exists'}, safe=False)
+            except:
+                Book.objects.create(book_id=book_id, title=title, publisher=publisher, catalog=catalog, genre=genre, status=status,shelf_no=shelf)
+                return JsonResponse({'book_id': book_id}, safe=False)
+        else:
+            return JsonResponse({'message': 'Some inputs are invalid'}, safe=False)
+
+
+class RentBookView(APIView):
+    def get(self, request):
+        user_id = request.GET.get('user_id')
+        book_id = request.GET.get('book_id')
+        time = request.GET.get('time')
+        print("the id is", user_id)
+        try:
+            print("got here")
+            book = Book.objects.get(book_id=book_id)
+            if book.status == "Taken":
+                return Response({'message': 'Book is already taken'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if user_id:
+                user_id = int(user_id)  
+
+            user = User.objects.get(user_id=user_id)
+            BookRent.objects.create(user=user, time=time, book=book)
+
+
+            # Update seat status to occupied
+            book.status = 'Taken'
+            book.save()
+            return JsonResponse({'book_id': book.book_id}, safe=False)
+        except Book.DoesNotExist:
+            # Handle the case where the seat does not exist
+            return Response({'message': 'Book does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
 class SeatView(generics.CreateAPIView):
     queryset = Seat.objects.all()
@@ -136,7 +177,6 @@ class SeatDataView(APIView):
         data = list(queryset.values())
         return JsonResponse(data, safe=False)
 
-        
 class SeatBookView(generics.CreateAPIView):
     queryset = SeatBook.objects.all()
     serializer_class = SeatBookSerializer 
@@ -146,21 +186,28 @@ class BookSeatView(APIView):
         seat_number = request.GET.get('seat_number')
         user_id = request.GET.get('user_id')
         time = request.GET.get('time')
+        print("user id:",user_id)
         try:
             seat = Seat.objects.get(seat_num=seat_number)
             if seat.status == "Occupied":
                 return Response({'message': 'Seat is already occupied'}, status=status.HTTP_400_BAD_REQUEST)
             
-            # Update seat status to occupied
-            seat.status = 'Occupied'
-            seat.save()
 
-            user_id = int(user_id)  
-            user = User.objects.get(user_id=user_id)
+            if user_id:
+                user_id = int(user_id)  
+                user = User.objects.get(user_id=user_id)
             
             # Create a new SeatBook entry
             SeatBook.objects.create(user_id=user, time=time, seat_number=seat)
+
+            # Update seat status to occupied
+            seat.status = 'Occupied'
+            seat.save()
+            # Update seat status to occupied
+            seat.status = 'Occupied'
+            seat.save()
             return JsonResponse({'seat_number': seat.seat_num}, safe=False)
+            
         except Seat.DoesNotExist:
             # Handle the case where the seat does not exist
             return Response({'message': 'Seat does not exist'}, status=status.HTTP_404_NOT_FOUND)
@@ -171,12 +218,6 @@ class CreateSeatView(APIView):
         floorno = request.GET.get('floorno')
         type = request.GET.get('type')
         status = request.GET.get('status')
-
-
-        print("seat num is:", seat_num)
-        print("floor no is:", floorno)
-        print("type  is:", type)
-        print("status is:", status)
 
         if seat_num != None and floorno != None and type != None and status != None:
             floor = Floor.objects.get(floorno=floorno)
@@ -235,15 +276,16 @@ class BookRoomView(APIView):
             if room.status == "Occupied":
                 return Response({'message': 'Room is already occupied'}, status=status.HTTP_400_BAD_REQUEST)
     
-            # Update seat status to occupied
-            room.status = 'Occupied'
-            room.save()
-
             if user_id:
                 user_id = int(user_id)  
             
             user = User.objects.get(user_id=user_id)
             StudyroomBook.objects.create(user=user, time=time, room=room)
+
+            # Update seat status to occupied
+            room.status = 'Occupied'
+            room.save()
+
             return JsonResponse({'room_id': room.room_id}, safe=False)
         except Seat.DoesNotExist:
             # Handle the case where the seat does not exist

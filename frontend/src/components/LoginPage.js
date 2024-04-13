@@ -38,6 +38,7 @@ export default class LoginPage extends Component {
       const data = await response.json();
       console.log(data);
       localStorage.setItem('user_id', data.user_id);
+      console.log(data.user_id)
       this.setState({ UserData: data });
       alert("Successfully logged in as a User");
     } else {
@@ -70,7 +71,6 @@ handleAdminSubmit = async (e) => {
     alert("Failed to login");
   }
 };
-
 
 // ------------------------------------ RENDER BELOW ------------------------------------
   render() {

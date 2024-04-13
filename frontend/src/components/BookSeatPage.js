@@ -71,12 +71,7 @@ handleBookSeat = async (event) => {
   }
 
   // Update the bookCriteria object with user_id
-  this.setState({
-    bookCriteria: {
-      ...this.state.bookCriteria,
-      user_id: user_id
-    }
-  });
+  this.state.bookCriteria.user_id = user_id
 
   try {
     const { user_id, seat_number, time } = this.state.bookCriteria;
@@ -93,6 +88,7 @@ handleBookSeat = async (event) => {
     }
   } catch (error) {
     // Handle network errors
+    alert(error);
     console.error('Network error:', error);
   }
 };

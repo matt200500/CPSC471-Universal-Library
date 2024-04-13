@@ -67,6 +67,7 @@ export default class BookRoomPage extends Component {
 
 handleBookSeat = async (event) => {
   event.preventDefault();
+  
   const user_id = localStorage.getItem('user_id');
   if (user_id == null) {
     alert('User has not logged in');
@@ -74,12 +75,7 @@ handleBookSeat = async (event) => {
   }
 
   // Update the bookCriteria object with user_id
-  this.setState({
-    bookCriteria: {
-      ...this.state.bookCriteria,
-      user_id: user_id
-    }
-  });
+  this.state.bookCriteria.user_id = user_id
 
   try {
     const { user_id, room_id, time } = this.state.bookCriteria;
