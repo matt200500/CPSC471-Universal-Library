@@ -165,24 +165,38 @@ class StudyRoomBookView(generics.CreateAPIView):
     serializer_class = StudyroomBookSerializer
 
 class LoginView(APIView):
-    def get(self, request):
+    def post(self, request, *args, **kwargs):
         user_id = request.GET.get('user_id')
-        User_password = request.GET.get('User_password')
-        queryset = User.objects.all()
+        password = request.GET.get('password')
         user = User.objects.filter(user_id=user_id).first()
-        if user and check_password(user.User_password, User_password):
-            return JsonResponse({'user_id': user.user_id}, safe=False)
-        else:
-            return JsonResponse({'error': 'Invalid credentials'}, status=400)
+        admin = Administrator.objects.filter(administrator_id=user_id).first()
 
+        if user and password == user.user_password:
+            return JsonResponse(UserSerializer(user).data)
+        elif admin and password == admin.administrator_password:
+            return JsonResponse(AdministratorSerializer(admin).data)
+        else:
+            return Response({"error": "Invalid credentials"}, status=400)
 
 class SignupView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
-        data['user_password'] = make_password(data['user_password'])
         serializer = UserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "User created successfully."}, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+class AccountView(APIView):
+    def get(self, request, user_id):
+        user = User.objects.filter(user_id=user_id).first()
+        if not user:
+            return Response({"error": "User not found"}, status=404)
+        
+        user_data = UserSerializer(user).data
+        user_data['books'] = BookRentSerializer(BookRent.objects.filter(user=user_id), many=True).data
+        user_data['seats'] = SeatBookSerializer(SeatBook.objects.filter(user=user_id), many=True).data
+        user_data['rooms'] = StudyroomBookSerializer(StudyroomBook.objects.filter(user=user_id), many=True).data
+        user_data['events'] = EventApplySerializer(EventApply.objects.filter(user=user_id), many=True).data
+        return Response(user_data)

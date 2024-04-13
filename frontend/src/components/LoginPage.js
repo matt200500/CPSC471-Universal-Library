@@ -4,34 +4,38 @@ export default class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user_login: {
-        user_id: "",
-        User_password: "",
-      },
-      UserData: []
+      userId: "",
+      password: ""
     };
   }
 
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
+  handleInputChange = (e) => {
     this.setState({
-      user_login: {
-        ...this.state.user_login,
-        [name]: value
-      }
+      [e.target.name]: e.target.value
     });
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { user_id, User_password } = this.state.user_login;
-    const response = await fetch(`/api/login?user_id=${user_id}&User_password=${User_password}`);
+    const { userId, password } = this.state;
+    const response = await fetch('/api/login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        password: password,
+      }),
+    });
+
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
-      this.setState({ UserData: data });
+      console.log("Login successful", data);
+      localStorage.setItem('user', JSON.stringify(data));
+      this.props.history.push('/');
     } else {
-      alert("Failed to login");
+      alert("Invalid credentials");
     }
   };
 
@@ -53,21 +57,20 @@ export default class LoginPage extends Component {
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
-            name="user_id"
-            placeholder="user_id"
+            name="userId"
+            placeholder="User ID"
             onChange={this.handleInputChange}
             value={this.state.userId}
           />
           <input
             type="password"
-            name="User_password"
-            placeholder="User_password"
+            name="password"
+            placeholder="Password"
             onChange={this.handleInputChange}
             value={this.state.password}
           />
           <button type="submit">Login</button>
         </form>
-        {this.state.UserData}
       </div>
       <div className="signup-stuff">
         <p>If you do not have an account, you can create one by pressing the button below:</p>
