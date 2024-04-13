@@ -28,5 +28,6 @@ urlpatterns = [
     path('book-seat/', BookSeatView.as_view(), name='book_seat'),
     path('book-room/', BookRoomView.as_view(), name='book-room'),
     path('create-room/', CreateRoomView.as_view(), name='create-room'),
+    path('create-seat/', CreateSeatView.as_view(), name='create-seat'),
     path('account/', AccountView.as_view(), name='account'),
 ]

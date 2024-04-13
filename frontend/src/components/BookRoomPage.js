@@ -111,7 +111,7 @@ handleBookSeat = async (event) => {
     });
   };
 
-handleCreateSeat = async (event) => {
+handleCreateRoom = async (event) => {
   event.preventDefault();
   const administrator_id = localStorage.getItem('administrator_id');
   if (administrator_id == null) {
@@ -130,7 +130,7 @@ handleCreateSeat = async (event) => {
     } else {
       // Handle error response
       alert("failed to create room");
-      console.error('Failed to create seat');
+      console.error('Failed to create room');
     }
   } catch (error) {
     // Handle network errors
@@ -209,7 +209,7 @@ handleCreateSeat = async (event) => {
           <button type="submit">Search For Rooms</button>
         </form>
         <p> Admins can create a room by filling the credentials below</p>
-        <form onSubmit={this.handleCreateSeat}>
+        <form onSubmit={this.handleCreateRoom}>
           <input
             type="text"
             name="floorno"

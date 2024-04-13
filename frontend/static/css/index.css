@@ -253,7 +253,8 @@ body {
 
 
 .table_container{
-  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-y: auto; 
+  max-height: 300px; 
 }
 
 
@@ -265,6 +266,7 @@ table {
   text-align: center;
   border-collapse: collapse; 
   border: 1px solid #ddd;
+  border-spacing: 0;
 }
 
 /* Style table headers */

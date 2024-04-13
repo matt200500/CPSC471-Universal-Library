@@ -120,6 +120,31 @@ class BookSeatView(APIView):
             # Handle the case where the seat does not exist
             return Response({'message': 'Seat does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
+class CreateSeatView(APIView):
+    def get(self, request):
+        seat_num = request.GET.get('seat_num')
+        floorno = request.GET.get('floorno')
+        type = request.GET.get('type')
+        status = request.GET.get('status')
+
+
+        print("seat num is:", seat_num)
+        print("floor no is:", floorno)
+        print("type  is:", type)
+        print("status is:", status)
+
+        if seat_num != None and floorno != None and type != None and status != None:
+            floor = Floor.objects.get(floorno=floorno)
+            try:
+                seat = Seat.objects.get(seat_num=seat_num)
+                return JsonResponse({'message': 'seat already exists'}, safe=False)
+            except:
+                Seat.objects.create(floorno=floor, seat_num=seat_num, type=type, status=status)
+                return JsonResponse({'seat_num': seat_num}, safe=False)
+        else:
+            return JsonResponse({'message': 'Some inputs are invalid'}, safe=False)
+
+
 class ShelfView(generics.CreateAPIView):
     queryset = Shelf.objects.all()
     serializer_class = ShelfSerializer 
@@ -187,17 +212,10 @@ class CreateRoomView(APIView):
         status = request.GET.get('status')
         hastv = request.GET.get('hastv')
 
-        print("room id is:", room_id)
-        print("floor no is:", floorno)
-        print("max occupancy is:", max_occupancy)
-        print("status is:", status)
-        print("hastv is:", hastv)
-
         if room_id != None and floorno != None and max_occupancy != None and status != None and hastv != None:
             floor = Floor.objects.get(floorno=floorno)
             try:
                 room = StudyRoom.objects.get(room_id=room_id)
-                StudyRoom.objects.create(floorno=floor, room_id=room_id, max_occupancy=max_occupancy, status=status, hastv=hastv)
                 return JsonResponse({'message': 'room already exists'}, safe=False)
             except:
                 StudyRoom.objects.create(floorno=floor, room_id=room_id, max_occupancy=max_occupancy, status=status, hastv=hastv)
