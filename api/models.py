@@ -264,7 +264,7 @@ class StudyroomBook(models.Model):
         ('8', '8'),
         )
     user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Room_ID, Floor_No) found, that is not supported. The first column is selected.
-    room = models.OneToOneField('StudyRoom', models.DO_NOTHING, db_column='Room_ID', unique=True)  # Field name made lowercase.
+    room = models.OneToOneField('StudyRoom', models.DO_NOTHING, db_column='Room_ID',default=3, unique=True)  # Field name made lowercase.
     time = models.TextField(max_length=255, db_column='Time', choices=TIME)  # Field name made lowercase.
 
     class Meta:

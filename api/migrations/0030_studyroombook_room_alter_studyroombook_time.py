@@ -11,12 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='studyroombook',
-            name='study_room',  # Changed field name from 'room' to 'study_room'
-            field=models.OneToOneField(db_column='Room_ID2', default=1, on_delete=django.db.models.deletion.DO_NOTHING, to='api.studyroom'),
-            preserve_default=False,
-        ),
         migrations.AlterField(
             model_name='studyroombook',
             name='time',

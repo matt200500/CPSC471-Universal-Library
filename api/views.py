@@ -178,7 +178,32 @@ class BookRoomView(APIView):
         except Seat.DoesNotExist:
             # Handle the case where the seat does not exist
             return Response({'message': 'Seat does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    
+class CreateRoomView(APIView):
+    def get(self, request):
+        room_id = request.GET.get('room_id')
+        floorno = request.GET.get('floorno')
+        max_occupancy = request.GET.get('max_occupancy')
+        status = request.GET.get('status')
+        hastv = request.GET.get('hastv')
 
+        print("room id is:", room_id)
+        print("floor no is:", floorno)
+        print("max occupancy is:", max_occupancy)
+        print("status is:", status)
+        print("hastv is:", hastv)
+
+        if room_id != None and floorno != None and max_occupancy != None and status != None and hastv != None:
+            floor = Floor.objects.get(floorno=floorno)
+            try:
+                room = StudyRoom.objects.get(room_id=room_id)
+                StudyRoom.objects.create(floorno=floor, room_id=room_id, max_occupancy=max_occupancy, status=status, hastv=hastv)
+                return JsonResponse({'message': 'room already exists'}, safe=False)
+            except:
+                StudyRoom.objects.create(floorno=floor, room_id=room_id, max_occupancy=max_occupancy, status=status, hastv=hastv)
+                return JsonResponse({'room_id': room_id}, safe=False)
+        else:
+            return JsonResponse({'message': 'Some inputs are invalid'}, safe=False)
 
 class LoginView(APIView):
     def get(self, request):

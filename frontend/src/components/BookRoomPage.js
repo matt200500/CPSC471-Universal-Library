@@ -16,6 +16,13 @@ export default class BookRoomPage extends Component {
         room_id:"",
         time:"",
       },
+      createCriteria: {
+        floorno: "",
+        room_id: "",
+        max_occupancy: "",
+        status: "",
+        hastv: "",
+      },
       roomData: [],
       randomData: [],
     };
@@ -93,6 +100,45 @@ handleBookSeat = async (event) => {
   }
 };
 
+  // ----------------------------- FOR CREATING A NEW ROOM ---------------------------------------
+  handleCreateChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      createCriteria: {
+        ...this.state.createCriteria,
+        [name]: value
+      }
+    });
+  };
+
+handleCreateSeat = async (event) => {
+  event.preventDefault();
+  const administrator_id = localStorage.getItem('administrator_id');
+  if (administrator_id == null) {
+    alert('Administrator has not logged in');
+    return;
+  }
+
+  try {
+    const { floorno, room_id, max_occupancy, status, hastv } = this.state.createCriteria;
+    const response = await fetch(`/api/create-room?floorno=${floorno}&room_id=${room_id}&max_occupancy=${max_occupancy}&status=${status}&hastv=${hastv}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.setState({ randomData: data });
+      alert("Successfully created a room");
+    } else {
+      // Handle error response
+      alert("failed to create room");
+      console.error('Failed to create seat');
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error('Network error:', error);
+  }
+};
+
+
   // ------------------------------- RENDER PAGE BELOW -------------------------------
   render() {
     return (
@@ -161,6 +207,53 @@ handleBookSeat = async (event) => {
 
           </select>
           <button type="submit">Search For Rooms</button>
+        </form>
+        <p> Admins can create a room by filling the credentials below</p>
+        <form onSubmit={this.handleCreateSeat}>
+          <input
+            type="text"
+            name="floorno"
+            placeholder="Floor Number"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.floorno}
+          />
+          <input
+            type="text"
+            name="room_id"
+            placeholder="Room ID"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.room_id}
+          />
+          <input
+            type="text"
+            name="max_occupancy"
+            placeholder="Max Occupancy"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.max_occupancy}
+          />
+          <select
+            type="text"
+            name="status"
+            placeholder="status"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.status}
+          >
+            <option value="">Select Status</option>
+            <option value="Available">Available</option>
+          </select>
+          <select
+            type="text"
+            name="hastv"
+            placeholder="hastv"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.hastv}
+          >
+            <option value="">Has a TV</option>
+            <option value="True">True</option>
+            <option value="False">False</option>
+
+          </select>
+          <button type="submit">Create New Room</button>
         </form>
       </div>
       <div className="Book-Seat">

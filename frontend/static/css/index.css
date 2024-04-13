@@ -141,6 +141,20 @@ body {
   text-align: center;
 }
 
+.search-seat p {
+  color:#ffffff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: 5px solid #9589b4;
+  border-radius: 5px;
+  padding: 10px 20px;
+  background-color: #9589b4;
+  font-size: 20x;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .search-seat select {
   width: 200px; 
   margin-right: 10px; 
@@ -168,7 +182,6 @@ body {
   cursor: pointer; 
 }
 
-/* Style the search button on hover */
 .search-seat button:hover {
   background-color: #0056b3; 
 }
