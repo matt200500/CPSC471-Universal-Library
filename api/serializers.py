@@ -94,4 +94,4 @@ class StudyRoomSerializer(serializers.ModelSerializer):
 class StudyroomBookSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudyroomBook
-        fields = ('user', 'room', 'floor_no', 'time')
+        fields = ('user', 'room', 'time')

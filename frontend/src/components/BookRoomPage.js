@@ -12,11 +12,12 @@ export default class BookRoomPage extends Component {
         hastv: "",
       },
       bookCriteria:{
+        user_id:'',
         room_id:"",
         time:"",
-        user_id:"",
       },
-      roomData: []
+      roomData: [],
+      randomData: [],
     };
   }
 
@@ -47,39 +48,52 @@ export default class BookRoomPage extends Component {
 
 
   // ----------------------------- FOR BOOKING A ROOM -----------------------------
-  // handleSeatChange = (event) => {
-  //   const { name, value } = event.target;
-  //   this.setState({
-  //     bookCriteria: {
-  //       ...this.state.bookCriteria,
-  //       [name]: value
-  //     }
-  //   });
-  // };
+  handleSeatChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      bookCriteria: {
+        ...this.state.bookCriteria,
+        [name]: value
+      }
+    });
+  };
 
+handleBookSeat = async (event) => {
+  event.preventDefault();
+  const user_id = localStorage.getItem('user_id');
+  if (user_id == null) {
+    alert('User has not logged in');
+    return;
+  }
 
-  // handleBookSeat = async (e) => {
-  //   e.preventDefault();
-  //   const { seat_number, time, user_id } = this.state.bookCriteria;
-  //   const response = await fetch(`/api/book-seat/`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ 
-  //       seat_num: seat_number,
-  //       time: time,
-  //       user_id: user_id,
-  //     }),
-  //   });
-    
-  //   if (response.ok) {
-  //     alert("Room booked successfully!");
-  //   } else {
-  //     alert("Failed to book room");
-  //   }
-  // };
+  // Update the bookCriteria object with user_id
+  this.setState({
+    bookCriteria: {
+      ...this.state.bookCriteria,
+      user_id: user_id
+    }
+  });
 
+  try {
+    const { user_id, room_id, time } = this.state.bookCriteria;
+    const response = await fetch(`/api/book-room?user_id=${user_id}&room_id=${room_id}&time=${time}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.setState({ randomData: data });
+      alert("Successfully booked a room");
+    } else {
+      // Handle error response
+      alert("failed to book room");
+      console.error('Failed to book seat');
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error('Network error:', error);
+  }
+};
+
+  // ------------------------------- RENDER PAGE BELOW -------------------------------
   render() {
     return (
       <>

@@ -78,7 +78,7 @@ handleBookSeat = async (event) => {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
-      this.setState({ UserData: data });
+      this.setState({ randomData: data });
       alert("Successfully booked a seat");
     } else {
       // Handle error response

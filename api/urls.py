@@ -26,5 +26,6 @@ urlpatterns = [
     path('seat-data/', SeatDataView.as_view(), name='seat_data'),
     path('room-data/', RoomDataView.as_view(), name='room-data'),
     path('book-seat/', BookSeatView.as_view(), name='book_seat'),
+    path('book-room/', BookRoomView.as_view(), name='book-room'),
     path('account/', AccountView.as_view(), name='account'),
 ]
