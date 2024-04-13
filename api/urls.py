@@ -35,4 +35,5 @@ urlpatterns = [
     path('browse-books/', BrowseBooksView.as_view()),
     path('claim-book/', ClaimBookView.as_view()),
     path('book-data/', BookDataView.as_view(), name="book-data"),
+    path('bookrent-data', BookRentDataView.as_view(), name="bookrent-data"),
 ]
