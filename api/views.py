@@ -157,24 +157,14 @@ class StudyRoomBookView(generics.CreateAPIView):
 
 class BookRoomView(APIView):
     def get(self, request):
-        print("we got here")
         room_id = request.GET.get('room_id')
         user_id = request.GET.get('user_id')
         time = request.GET.get('time')
-        print("room id is", room_id)
-        print("user id is:", user_id)
-        print("time is", time)
         try:
-            print("GOT OVER HERE1111323132333333333333333", time)
             room = StudyRoom.objects.get(room_id=room_id)
-            print("GOT OVER HERE1111", time)
             if room.status == "Occupied":
-                print("poop")
                 return Response({'message': 'Room is already occupied'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            print("GOT OVER HERE", time)
-
-
+    
             # Update seat status to occupied
             room.status = 'Occupied'
             room.save()
@@ -183,8 +173,6 @@ class BookRoomView(APIView):
                 user_id = int(user_id)  
             
             user = User.objects.get(user_id=user_id)
-            print("PASt USER", time)
-            # Create a new SeatBook entry
             StudyroomBook.objects.create(user=user, time=time, room=room)
             return JsonResponse({'room_id': room.room_id}, safe=False)
         except Seat.DoesNotExist:
