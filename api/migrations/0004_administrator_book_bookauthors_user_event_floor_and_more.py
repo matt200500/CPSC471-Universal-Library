@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0003_initial'),
+        ('api', '0002_administrator_book_bookauthors_user_event_floor_and_more'),
     ]
 
     operations = [
@@ -109,10 +109,6 @@ class Migration(migrations.Migration):
                 'db_table': 'phone',
                 'managed': False,
             },
-        ),
-        migrations.RenameModel(
-            old_name='penis',
-            new_name='Room',
         ),
         migrations.CreateModel(
             name='BookRent',
