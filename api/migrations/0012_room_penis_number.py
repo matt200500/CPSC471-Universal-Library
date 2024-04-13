@@ -10,9 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='room',
-            name='penis_number',
-            field=models.CharField(default=1, max_length=10),
-        ),
     ]
