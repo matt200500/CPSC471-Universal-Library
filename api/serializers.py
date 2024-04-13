@@ -14,7 +14,7 @@ class AdministratorSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('book_id', 'title', 'publisher', 'publish_date', 'catalog', 'genre', 'status', 'shelf_no')
+        fields = ('book_id', 'title', 'publisher', 'catalog', 'genre', 'status', 'shelf_no')
 
 class BookAuthorSerializer(serializers.ModelSerializer):
     class Meta:

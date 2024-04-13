@@ -34,4 +34,5 @@ urlpatterns = [
     path('account/', AccountView.as_view(), name='account'),
     path('browse-books/', BrowseBooksView.as_view()),
     path('claim-book/', ClaimBookView.as_view()),
+    path('book-data/', BookDataView.as_view(), name="book-data"),
 ]

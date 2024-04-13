@@ -81,9 +81,36 @@ class ClaimBookView(APIView):
         book_id = request.GET.get('book_id');
         user_id = request.GET.get('user_id');
 
-        try:
+        # try:
 
-        except:
+        # except:
+
+class BookDataView(APIView):
+    def get(self, request):
+        print("i am here")
+        book_id = request.GET.get('book_id')
+        title = request.GET.get('title')
+        publisher = request.GET.get('publisher')
+        genre = request.GET.get('genre')
+        status = request.GET.get('status')
+        shelf_no = request.GET.get('shelf_no')
+        queryset = Book.objects.all()
+
+        if book_id:
+            queryset = queryset.filter(book_id=book_id)
+        if title:
+            queryset = queryset.filter(title=title)
+        if publisher:
+            queryset = queryset.filter(publisher=publisher)
+        if genre:
+            queryset = queryset.filter(genre=genre)
+        if status:
+            queryset = queryset.filter(status=status)
+        if shelf_no:
+            queryset = queryset.filter(shelf_no=shelf_no)
+
+        data = list(queryset.values())
+        return JsonResponse(data, safe=False)
 
 class SeatView(generics.CreateAPIView):
     queryset = Seat.objects.all()

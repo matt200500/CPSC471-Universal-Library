@@ -9,19 +9,10 @@ class Migration(migrations.Migration):
         ('api', '0027_alter_studyroom_floorno_alter_studyroom_room_id'),
     ]
 
-    operations = [
-        migrations.RenameField(
-            model_name='seatbook',
-            old_name='seat_num',
-            new_name='seat_number',
-        ),
+    operations = [ 
         migrations.RenameField(
             model_name='seatbook',
             old_name='user',
             new_name='user_id',
-        ),
-        migrations.AlterUniqueTogether(
-            name='seatbook',
-            unique_together={('user_id', 'seat_number')},
         ),
     ]

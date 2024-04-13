@@ -48,7 +48,6 @@ class Book(models.Model):
     book_id = models.IntegerField(primary_key=True)
     title = models.CharField(db_column='Title', max_length=255)  # Field name made lowercase.
     publisher = models.CharField(db_column='Publisher', max_length=255)  # Field name made lowercase.
-    publish_date = models.DateField(db_column='Publish_Date')  # Field name made lowercase.
     catalog = models.CharField(db_column='Catalog', max_length=255)  # Field name made lowercase.
     genre = models.CharField(db_column='Genre', max_length=255)  # Field name made lowercase.
     status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
@@ -205,7 +204,7 @@ class SeatBook(models.Model):
             )
     
     user_id = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Seat_num) found, that is not supported. The first column is selected.
-    seat_number = models.OneToOneField('Seat', models.DO_NOTHING, db_column='Seat_num', unique=True)  # Field name made lowercase.
+    seat_number = models.OneToOneField('Seat', models.DO_NOTHING, db_column='Seat_num', default=3, unique=True)  # Field name made lowercase.
     time = models.TextField(max_length=255, db_column='Time', choices=TIME)  # Field name made lowercase.
 
 
@@ -213,10 +212,8 @@ class SeatBook(models.Model):
             return str(self.user_id)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'seat_book'
-        unique_together = (('user_id', 'seat_number'),)
-
 
 class Shelf(models.Model):
     floor_no = models.OneToOneField(Floor, models.DO_NOTHING, db_column='Floor_No', primary_key=True)  # Field name made lowercase. The composite primary key (Floor_No, Shelf_No) found, that is not supported. The first column is selected.
