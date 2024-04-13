@@ -16,6 +16,12 @@ class SeatPage extends Component {
         seat_number:"",
         time:"",
       },
+      createCriteria: {
+        seat_num: "",
+        floorno: "",
+        type: "",
+        status: ""
+      },
       seatData: [],
       randomData: [],
     };
@@ -78,7 +84,7 @@ handleBookSeat = async (event) => {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
-      this.setState({ UserData: data });
+      this.setState({ randomData: data });
       alert("Successfully booked a seat");
     } else {
       // Handle error response
@@ -90,6 +96,46 @@ handleBookSeat = async (event) => {
     console.error('Network error:', error);
   }
 };
+
+
+  // ----------------------------- FOR CREATING A NEW SEAT ---------------------------------------
+  handleCreateChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      createCriteria: {
+        ...this.state.createCriteria,
+        [name]: value
+      }
+    });
+  };
+
+handleCreateSeat = async (event) => {
+  event.preventDefault();
+  const administrator_id = localStorage.getItem('administrator_id');
+  if (administrator_id == null) {
+    alert('Administrator has not logged in');
+    return;
+  }
+
+  try {
+    const { seat_num, floorno, type, status } = this.state.createCriteria;
+    const response = await fetch(`/api/create-seat?seat_num=${seat_num}&floorno=${floorno}&type=${type}&status=${status}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.setState({ randomData: data });
+      alert("Successfully created a seat");
+    } else {
+      // Handle error response
+      alert("failed to create seat");
+      console.error('Failed to create seat');
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error('Network error:', error);
+  }
+};
+
 
   // ------------------------------- RENDER PAGE BELOW -------------------------------
   render() {
@@ -153,6 +199,47 @@ handleBookSeat = async (event) => {
             <option value="Occupied">Occupied</option>
           </select>
           <button type="submit">Search For Seats</button>
+        </form>
+        <p> Admins can create a seat by filling the credentials below</p>
+        <form onSubmit={this.handleCreateSeat}>
+          <input
+            type="text"
+            name="seat_num"
+            placeholder="Seat Number"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.seat_num}
+          />
+          <input
+            type="text"
+            name="floorno"
+            placeholder="Floor Number"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.floorno}
+          />
+          <select
+            type="text"
+            name="type"
+            placeholder="Type"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.type}
+          >
+            <option value="">Select Type</option>
+            <option value="Desk">Desk</option>
+            <option value="Couch">Couch</option>
+            <option value="Chair">Chair</option>
+            <option value="BeanBag">BeanBag</option>
+          </select>
+          <select
+            type="text"
+            name="status"
+            placeholder="status"
+            onChange={this.handleCreateChange}
+            value={this.state.createCriteria.status}
+          >
+            <option value="">Select Status</option>
+            <option value="Available">Available</option>
+          </select>
+          <button type="submit">Create New Seat</button>
         </form>
       </div>
       <div className="Book-Seat">
