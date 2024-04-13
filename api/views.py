@@ -175,3 +175,16 @@ class SignupView(APIView):
             return Response({"message": "User created successfully."}, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+class AccountView(APIView):
+    def get(self, request, user_id):
+        user = User.objects.filter(user_id=user_id).first()
+        if not user:
+            return Response({"error": "User not found"}, status=404)
+        
+        user_data = UserSerializer(user).data
+        user_data['books'] = BookRentSerializer(BookRent.objects.filter(user=user_id), many=True).data
+        user_data['seats'] = SeatBookSerializer(SeatBook.objects.filter(user=user_id), many=True).data
+        user_data['rooms'] = StudyroomBookSerializer(StudyroomBook.objects.filter(user=user_id), many=True).data
+        user_data['events'] = EventApplySerializer(EventApply.objects.filter(user=user_id), many=True).data
+        return Response(user_data)

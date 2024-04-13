@@ -27,7 +27,7 @@ class AccountPage extends Component {
 
   fetchUserData = async () => {
     const userId = JSON.parse(localStorage.getItem('user')).user_id;
-    const response = await fetch();
+    const response = await fetch(`/account/${userId}/`);
     if (response.ok) {
       const data = await response.json();
       this.setState({
