@@ -446,3 +446,15 @@ class AccountView(APIView):
         user_data['rooms'] = StudyroomBookSerializer(StudyroomBook.objects.filter(user=user_id), many=True).data
         user_data['events'] = EventApplySerializer(EventApply.objects.filter(user=user_id), many=True).data
         return Response(user_data)
+
+class BookRentDataView(APIView):
+    def get(self, request):
+        print("i am here")
+        user_id = request.GET.get('user_id')
+        queryset = BookRent.objects.all()
+
+        if user_id:
+            queryset = queryset.filter(user=user_id)
+
+        data = list(queryset.values())
+        return JsonResponse(data, safe=False)

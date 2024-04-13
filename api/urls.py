@@ -36,4 +36,5 @@ urlpatterns = [
     path('book-data/', BookDataView.as_view(), name="book-data"),
     path('create-book/', CreateBookView.as_view(), name="create-book"),
     path('rent-book/', RentBookView.as_view(), name="rent-book"),
+    path('bookrent-data', BookRentDataView.as_view(), name="bookrent-data"),
 ]
