@@ -208,6 +208,10 @@ class SeatBook(models.Model):
     seat_number = models.OneToOneField('Seat', models.DO_NOTHING, db_column='Seat_num', unique=True)  # Field name made lowercase.
     time = models.TextField(max_length=255, db_column='Time', choices=TIME)  # Field name made lowercase.
 
+
+    def __str__(self):
+            return str(self.user_id)
+
     class Meta:
         managed = True
         db_table = 'seat_book'

@@ -96,43 +96,51 @@ class SeatBookView(generics.CreateAPIView):
     queryset = SeatBook.objects.all()
     serializer_class = SeatBookSerializer 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class BookSeatView(APIView):
-    def post(self, request, format=None):
-        print("we got here")
-        print(request.data)
-        serializer = SeatBookSerializer(data=request.data)
-        if serializer.is_valid():
-            seat_number = serializer.validated_data.get('seat_number')
-            user_id = serializer.validated_data.get('user_id')
-            time = serializer.validated_data.get('time')
-            print("seat number is", type(seat_number))
-            print("user id is:", type(user_id))
-            print("time is", type(time))
-            try:
-                print("GOT OVER HERE1111323132333333333333333", time)
-                seat = Seat.objects.get(seat_num=seat_number)
-                print("GOT OVER HERE1111", time)
-                if seat.status == "Occupied":
-                    print("poop")
-                    return Response({'message': 'Seat is already occupied'}, status=status.HTTP_400_BAD_REQUEST)
-                
-                print("GOT OVER HERE", time)
 
-                # Update seat status to occupied
-                seat.status = 'Occupied'
-                seat.save()
-                
-                # Create a new SeatBook entry
-                SeatBook.objects.create(user_id=user_id, time=time, seat_number=seat_number)
-                
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except Seat.DoesNotExist:
-                # Handle the case where the seat does not exist
-                return Response({'message': 'Seat does not exist'}, status=status.HTTP_404_NOT_FOUND)
+class LoginView(APIView):
+    def get(self, request):
+        user_id = request.GET.get('user_id')
+        User_password = request.GET.get('User_password')
+        queryset = User.objects.all()
+        user = queryset.filter(user_id=user_id).first() 
+        if user and user.User_password == User_password:
+            return JsonResponse({'user_id': user.user_id}, safe=False)
         else:
-            print(serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
+
+class BookSeatView(APIView):
+    def get(self, request):
+        print("we got here")
+        seat_number = request.GET.get('seat_number')
+        user_id = request.GET.get('user_id')
+        time = request.GET.get('time')
+        print("seat number is", seat_number)
+        print("user id is:", user_id)
+        print("time is", time)
+        try:
+            print("GOT OVER HERE1111323132333333333333333", time)
+            seat = Seat.objects.get(seat_num=seat_number)
+            print("GOT OVER HERE1111", time)
+            if seat.status == "Occupied":
+                print("poop")
+                return Response({'message': 'Seat is already occupied'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            print("GOT OVER HERE", time)
+
+
+            # Update seat status to occupied
+            seat.status = 'Occupied'
+            seat.save()
+
+            user_id = int(user_id)  
+            user = User.objects.get(user_id=user_id)
+            
+            # Create a new SeatBook entry
+            SeatBook.objects.create(user_id=user, time=time, seat_number=seat)
+            return JsonResponse({'seat_number': seat.seat_num}, safe=False)
+        except Seat.DoesNotExist:
+            # Handle the case where the seat does not exist
+            return Response({'message': 'Seat does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
 class ShelfView(generics.CreateAPIView):
     queryset = Shelf.objects.all()

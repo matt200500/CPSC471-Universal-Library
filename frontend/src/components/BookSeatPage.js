@@ -16,7 +16,8 @@ class SeatPage extends Component {
         seat_number:"",
         time:"",
       },
-      seatData: []
+      seatData: [],
+      randomData: [],
     };
   }
 
@@ -72,19 +73,16 @@ handleBookSeat = async (event) => {
   });
 
   try {
-    const response = await fetch('/api/book-seat/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state.bookCriteria)
-    });
-
+    const { user_id, seat_number, time } = this.state.bookCriteria;
+    const response = await fetch(`/api/book-seat?user_id=${user_id}&seat_number=${seat_number}&time=${time}`);
     if (response.ok) {
-      // Seat booked successfully, handle success action
-      console.log('Seat booked successfully');
+      const data = await response.json();
+      console.log(data);
+      this.setState({ UserData: data });
+      alert("Successfully booked a seat");
     } else {
       // Handle error response
+      alert("failed to book seat");
       console.error('Failed to book seat');
     }
   } catch (error) {
@@ -92,24 +90,6 @@ handleBookSeat = async (event) => {
     console.error('Network error:', error);
   }
 };
-
-// Function to retrieve CSRF token from cookie
-getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-
-  
 
   // ------------------------------- RENDER PAGE BELOW -------------------------------
   render() {
