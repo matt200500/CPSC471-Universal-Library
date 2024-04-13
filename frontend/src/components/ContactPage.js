@@ -27,11 +27,13 @@ class ContactPage extends Component {
           <a href="login">Login</a>
           <a href="account">Account</a>
         </div>
-        <div className="stuff">
-          <h1>This is the contact  page</h1>
-        </div>
+        <div class="home-stuff">
+              <h2>You can contact us at our email address UniversalLibrary@gmail.com or you can call us at 123-456-7890.</h2>
+              <h3>
+                Our phone ours are from 8:00am - 5:00pm MST
+              </h3>
+          </div>
       </>
-
     );
   }
 }

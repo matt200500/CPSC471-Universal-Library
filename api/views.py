@@ -12,39 +12,6 @@ from django.http import HttpResponse
 from django.template import loader
 from django.http import JsonResponse
 
-# Create your views here.
-class RoomView(generics.ListAPIView):
-    queryset = Room.objects.all()
-    serializer_class = RoomSerializer
-
-
-class CreateRoomView(APIView):
-    serializer_class = CreateRoomSerializer
-
-    def post(self, request, format=None):
-        if not self.request.session.exists(self.request.session.session_key):
-            self.request.session.create()
-
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            guest_can_pause = serializer.data.get('guest_can_pause')
-            votes_to_skip = serializer.data.get('votes_to_skip')
-            host = self.request.session.session_key
-            queryset = Room.objects.filter(host=host)
-            if queryset.exists():
-                room = queryset[0]
-                room.guest_can_pause = guest_can_pause
-                room.votes_to_skip = votes_to_skip
-                room.save(update_fields=['guest_can_pause', 'votes_to_skip'])
-                return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
-            else:
-                room = Room(host=host, guest_can_pause=guest_can_pause,
-                            votes_to_skip=votes_to_skip)
-                room.save()
-                return Response(RoomSerializer(room).data, status=status.HTTP_201_CREATED)
-
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
-
 class UserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -101,8 +68,6 @@ class SeatView(generics.CreateAPIView):
     queryset = Seat.objects.all()
     serializer_class = SeatSerializer
 
-from django.http import JsonResponse
-
 class SeatDataView(APIView):
     def get(self, request):
         seat_num = request.GET.get('seat_num')
@@ -127,11 +92,6 @@ class SeatDataView(APIView):
 class SeatBookView(generics.CreateAPIView):
     queryset = SeatBook.objects.all()
     serializer_class = SeatBookSerializer 
-
-from rest_framework import status
-from rest_framework.response import Response
-from .models import Seat, SeatBook
-from .serializers import SeatBookSerializer
 
 class BookSeatView(APIView):
     def post(self, request):
@@ -167,23 +127,44 @@ class StudyRoomView(generics.CreateAPIView):
     queryset = StudyRoom.objects.all()
     serializer_class = StudyRoomSerializer 
 
+class RoomDataView(APIView):
+    def get(self, request):
+        floorno = request.GET.get('floorno')
+        room_id = request.GET.get('room_id')
+        max_occupancy = request.GET.get('max_occupancy')
+        status = request.GET.get('status')
+        hastv = request.GET.get('hastv')
+        queryset = StudyRoom.objects.all()
+
+        if floorno:
+            queryset = queryset.filter(floorno=floorno)
+        if room_id:
+            queryset = queryset.filter(room_id=room_id)
+        if max_occupancy:
+            queryset = queryset.filter(max_occupancy=max_occupancy)
+        if status:
+            queryset = queryset.filter(status=status)
+        if hastv:
+            queryset = queryset.filter(hastv=hastv)
+
+        data = list(queryset.values())
+        return JsonResponse(data, safe=False)
+
 class StudyRoomBookView(generics.CreateAPIView):
     queryset = StudyroomBook.objects.all()
     serializer_class = StudyroomBookSerializer
 
 class LoginView(APIView):
-    def post(self, request, *args, **kwargs):
-        user_id = request.data.get('user_id')
-        password = request.data.get('password')
+    def get(self, request):
+        user_id = request.GET.get('user_id')
+        User_password = request.GET.get('User_password')
+        queryset = User.objects.all()
         user = User.objects.filter(user_id=user_id).first()
-        admin = Administrator.objects.filter(administrator_id=user_id).first()
-
-        if user and check_password(password, user.user_password):
-            return Response(UserSerializer(user).data)
-        elif admin and check_password(password, admin.administrator_password):
-            return Response(AdministratorSerializer(admin).data)
+        if user and check_password(user.User_password, User_password):
+            return JsonResponse({'user_id': user.user_id}, safe=False)
         else:
-            return Response({"error": "Invalid credentials"}, status=400)
+            return JsonResponse({'error': 'Invalid credentials'}, status=400)
+
 
 class SignupView(APIView):
     def post(self, request, *args, **kwargs):

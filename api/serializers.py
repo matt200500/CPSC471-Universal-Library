@@ -1,25 +1,15 @@
 from rest_framework import serializers
 from .models import *
 
-class RoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Room
-        fields = ('id', 'code', 'host', 'guest_can_pause', 'votes_to_skip', 'created_at')
-
-class CreateRoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Room
-        fields = ('guest_can_pause', 'votes_to_skip')
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('user_id','user_password', 'email', 'firstname', 'middlename', 'lastname')
+        fields = ('user_id','User_password', 'email', 'firstname', 'middlename', 'lastname')
 
 class AdministratorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administrator
-        fields = ('administrator_id','administrator_password', 'email', 'firstname', 'middlename', 'lastname')
+        fields = ('administrator_id','Administrator_password', 'email', 'firstname', 'middlename', 'lastname')
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:

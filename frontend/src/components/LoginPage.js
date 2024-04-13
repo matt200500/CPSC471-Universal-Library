@@ -4,36 +4,34 @@ export default class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: "",
-      password: ""
+      user_login: {
+        user_id: "",
+        User_password: "",
+      },
+      UserData: []
     };
   }
 
-  handleInputChange = (e) => {
+  handleInputChange = (event) => {
+    const { name, value } = event.target;
     this.setState({
-      [e.target.name]: e.target.value
+      user_login: {
+        ...this.state.user_login,
+        [name]: value
+      }
     });
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { userId, password } = this.state;
-    const response = await fetch('/api/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user_id: userId,
-        password: password,
-      }),
-    });
-
+    const { user_id, User_password } = this.state.user_login;
+    const response = await fetch(`/api/login?user_id=${user_id}&User_password=${User_password}`);
     if (response.ok) {
       const data = await response.json();
-      console.log("Login successful", data);
+      console.log(data);
+      this.setState({ UserData: data });
     } else {
-      alert("Invalid credentials");
+      alert("Failed to login");
     }
   };
 
@@ -55,20 +53,21 @@ export default class LoginPage extends Component {
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
-            name="userId"
-            placeholder="User ID"
+            name="user_id"
+            placeholder="user_id"
             onChange={this.handleInputChange}
             value={this.state.userId}
           />
           <input
             type="password"
-            name="password"
-            placeholder="Password"
+            name="User_password"
+            placeholder="User_password"
             onChange={this.handleInputChange}
             value={this.state.password}
           />
           <button type="submit">Login</button>
         </form>
+        {this.state.UserData}
       </div>
       <div className="signup-stuff">
         <p>If you do not have an account, you can create one by pressing the button below:</p>

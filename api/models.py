@@ -2,25 +2,6 @@ from django.db import models
 import string
 import random
 
-# ------------------------------- TUTTORIAL CODE DO NOT NEED ---------------------------------
-def generate_unique_code():
-    length = 6
-
-    while True:
-        code = ''.join(random.choices(string.ascii_uppercase, k=length))
-        if Room.objects.filter(code=code).count() == 0:
-            break
-
-    return code
-
-class Room(models.Model):
-    code = models.CharField(max_length=8, default=generate_unique_code, unique=True)
-    host = models.CharField(max_length=50, unique=True)
-    guest_can_pause = models.BooleanField(null=False, default=False)
-    votes_to_skip = models.IntegerField(null=False, default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
-    penis_number = models.CharField(max_length=10, default=1)
-
 # -------------------------------------------------------------------------------------------------
 
 class UploadImage(models.Model):  
@@ -192,9 +173,10 @@ class Seat(models.Model):
             ('Occupied', 'Occupied'),
             )
     TYPE = (
-            ('Large', 'Large'),
-            ('Medium', 'Medium'),
-            ('Small', 'Small'),
+            ('Desk', 'Desk'),
+            ('Couch', 'Couch'),
+            ('Chair', 'Chair'),
+            ('BeanBag', 'BeanBag'),
             )
 
     floorno = models.ForeignKey(Floor, models.DO_NOTHING, db_column='FloorNo', unique=False)  # Field name made lowercase. The composite primary key (FloorNo, Seat_num) found, that is not supported. The first column is selected.
@@ -252,25 +234,36 @@ class StudyRoom(models.Model):
             ('True', 'True'),
             ('False', 'False'),
             )
-    floor_no = models.OneToOneField(Floor, models.DO_NOTHING, db_column='Floor_No', primary_key=True)  # Field name made lowercase. The composite primary key (Floor_No, Room_ID) found, that is not supported. The first column is selected.
-    room_id = models.IntegerField(db_column='Room_ID', unique=True)  # Field name made lowercase.
+    floorno = models.ForeignKey(Floor, models.DO_NOTHING, db_column='FloorNo', unique=False)  # Field name made lowercase. The composite primary key (Floor_No, Room_ID) found, that is not supported. The first column is selected.
+    room_id = models.IntegerField(db_column='Room_ID', unique=True, primary_key=True)  # Field name made lowercase.
     max_occupancy = models.IntegerField(db_column='Max_Occupancy')  # Field name made lowercase.
     status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
-    hastv = models.IntegerField(db_column='HasTv',choices=HASTV)  # Field name made lowercase.
+    hastv = models.CharField(db_column='HasTv',max_length=255, choices=HASTV)  # Field name made lowercase.
 
+
+    def __str__(self):
+        return str(self.room_id)
+    
     class Meta:
-        managed = False
+        managed = True
         db_table = 'study_room'
-        unique_together = (('floor_no', 'room_id'),)
-
 
 class StudyroomBook(models.Model):
+    TIME = (
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+        ('6', '6'),
+        ('7', '7'),
+        ('8', '8'),
+        )
     user = models.OneToOneField('User', models.DO_NOTHING, db_column='User_ID', primary_key=True)  # Field name made lowercase. The composite primary key (User_ID, Room_ID, Floor_No) found, that is not supported. The first column is selected.
     room = models.OneToOneField(StudyRoom, models.DO_NOTHING, db_column='Room_ID')  # Field name made lowercase.
     floor_no = models.OneToOneField(StudyRoom, models.DO_NOTHING, db_column='Floor_No', related_name='studyroombook_floor_no_set')  # Field name made lowercase.
-    time = models.DateTimeField(db_column='Time')  # Field name made lowercase.
+    time = models.TextField(max_length=255, db_column='Time', choices=TIME)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'studyroom_book'
-        unique_together = (('user', 'room', 'floor_no'),)
