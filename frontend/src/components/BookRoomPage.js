@@ -193,8 +193,8 @@ export default class BookRoomPage extends Component {
           </tr>
           {this.state.roomData.map(room => (
             <tr key={room.floorno}>
-              <td>{room.room_id}</td>
               <td>{room.floorno_id}</td>
+              <td>{room.room_id}</td>
               <td>{room.max_occupancy}</td>
               <td>{room.status}</td>
               <td>{room.hastv}</td>

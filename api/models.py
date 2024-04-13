@@ -234,8 +234,8 @@ class StudyRoom(models.Model):
             ('True', 'True'),
             ('False', 'False'),
             )
-    floorno = models.OneToOneField(Floor, models.DO_NOTHING, db_column='Floor_No', primary_key=True)  # Field name made lowercase. The composite primary key (Floor_No, Room_ID) found, that is not supported. The first column is selected.
-    room_id = models.IntegerField(db_column='Room_ID', unique=True)  # Field name made lowercase.
+    floorno = models.ForeignKey(Floor, models.DO_NOTHING, db_column='FloorNo', unique=False)  # Field name made lowercase. The composite primary key (Floor_No, Room_ID) found, that is not supported. The first column is selected.
+    room_id = models.IntegerField(db_column='Room_ID', unique=True, primary_key=True)  # Field name made lowercase.
     max_occupancy = models.IntegerField(db_column='Max_Occupancy')  # Field name made lowercase.
     status = models.CharField(db_column='Status', max_length=255, choices=STATUS)  # Field name made lowercase.
     hastv = models.CharField(db_column='HasTv',max_length=255, choices=HASTV)  # Field name made lowercase.
