@@ -246,15 +246,42 @@ class AdminLoginView(APIView):
             return JsonResponse({'error': 'Invalid credentials'}, status=400)
 
 class SignupView(APIView):
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        data['user_password'] = make_password(data['user_password'])
-        serializer = UserSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "User created successfully."}, status=201)
+    def get(self, request):
+        user_id = request.GET.get('user_id')
+        email = request.GET.get('email')
+        firstname = request.GET.get('firstname')
+        middlename = request.GET.get('middlename')
+        lastname = request.GET.get('lastname')
+        User_password = request.GET.get('User_password')
+
+        if user_id != None and email != None and firstname != None and middlename != None and lastname != None and User_password != None:
+            try:
+                user = User.objects.get(user_id=user_id)
+                return JsonResponse({'message': 'user already exists'}, safe=False)
+            except:
+                User.objects.create(user_id=user_id, email=email, firstname=firstname, middlename=middlename, lastname=lastname, User_password=User_password)
+                return JsonResponse({'user_id': user_id}, safe=False)
         else:
-            return Response(serializer.errors, status=400)
+            return JsonResponse({'message': 'Some inputs are invalid'}, safe=False)
+
+class CreateAdmin(APIView):
+    def get(self, request):
+        administrator_id = request.GET.get('administrator_id')
+        email = request.GET.get('email')
+        firstname = request.GET.get('firstname')
+        middlename = request.GET.get('middlename')
+        lastname = request.GET.get('lastname')
+        Administrator_password = request.GET.get('Administrator_password')
+
+        if administrator_id != None and email != None and firstname != None and middlename != None and lastname != None and Administrator_password != None:
+            try:
+                administrator = Administrator.objects.get(administrator_id=administrator_id)
+                return JsonResponse({'message': 'admin already exists'}, safe=False)
+            except:
+                Administrator.objects.create(administrator_id=administrator_id, email=email, firstname=firstname, middlename=middlename, lastname=lastname, Administrator_password=Administrator_password)
+                return JsonResponse({'administrator_id': administrator_id}, safe=False)
+        else:
+            return JsonResponse({'message': 'Some inputs are invalid'}, safe=False)
 
 class AccountView(APIView):
     def get(self, request):

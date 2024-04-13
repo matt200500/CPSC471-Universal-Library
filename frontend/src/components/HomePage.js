@@ -8,6 +8,7 @@ import AccountPage from "./AccountPage";
 import SeatPage from "./BookSeatPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Backdrop } from "@material-ui/core";
+import SignupPage from "./SignupPage";
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ export default class HomePage extends Component {
           <Route path="/events" element={<EventPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/account" element={<AccountPage />} />
         </Routes>
       </Router>

@@ -88,6 +88,7 @@ handleAdminSubmit = async (e) => {
         </div>
         <div className="login-stuff">
           <h1> Login for Users</h1>
+          <h2></h2>
           <p className="login-text">Input your Username and Password Below</p>
           <form onSubmit={this.handleSubmit}>
             <input
@@ -107,6 +108,7 @@ handleAdminSubmit = async (e) => {
             <button type="submit">Login</button>
           </form>
           <h1> Login for Admins</h1>
+          <h3></h3>
           <p className="login-text">Input your Admin Username and Password Below</p>
           <form onSubmit={this.handleAdminSubmit}>
             <input

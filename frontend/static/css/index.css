@@ -307,6 +307,7 @@ tr:hover {
 }
 
 .login-stuff h1 {
+  margin-bottom: 20px;
   color:#ffffff;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   border: 5px solid #635c75;
@@ -314,6 +315,16 @@ tr:hover {
   padding: 10px 20px;
   display: inline-block;
   background-color: #635c75;
+}
+
+.login-stuff p {
+  color:#ffffff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border: 3px solid #7e6180;
+  border-radius: 1px;
+  padding: 10px 20px;
+  display: inline-block;
+  background-color: #7e6180;
 }
 
 .login-stuff .login-text {
@@ -332,6 +343,15 @@ tr:hover {
 
 /* Style the form inputs */
 .login-stuff input[type="text"] {
+  width: 200px; 
+  margin-right: 10px; 
+  padding: 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 3px; 
+}
+
+/* Style the form inputs */
+.login-stuff input[type="email"] {
   width: 200px; 
   margin-right: 10px; 
   padding: 5px; 
