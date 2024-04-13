@@ -30,7 +30,7 @@ class ContactPage extends Component {
         <div class="home-stuff">
               <h2>You can contact us at our email address UniversalLibrary@gmail.com or you can call us at 123-456-7890.</h2>
               <h3>
-                Our phone ours are from 8:00am - 5:00pm MST
+                Our phone hours are from 8:00am - 5:00pm MST
               </h3>
           </div>
       </>

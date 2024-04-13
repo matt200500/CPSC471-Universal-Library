@@ -14,12 +14,10 @@ class SeatPage extends Component {
       bookCriteria:{
         seat_number:"",
         time:"",
-        user_id:"",
       },
       seatData: []
     };
   }
-
 
   // ----------------------------- FOR VIEWING THE LIST OF SEATS ---------------------------------------
   handleInputChange = (event) => {
@@ -56,30 +54,32 @@ class SeatPage extends Component {
     });
   };
 
-
-  handleBookSeat = async (e) => {
-    e.preventDefault();
-    const { seat_number, time, user_id } = this.state.bookCriteria;
-    const response = await fetch(`/api/book-seat/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ 
-        seat_num: seat_number,
-        time: time,
-        user_id: user_id,
-      }),
-    });
+  handleBookSeat = async (event) => {
     
-    if (response.ok) {
-      alert("Seat booked successfully!");
-    } else {
-      alert("Failed to book seat");
+    event.preventDefault();
+
+    try {
+      const response = await fetch('/api/book-seat/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.bookCriteria)
+      });
+
+      if (response.ok) {
+        // Seat booked successfully, handle success action
+        console.log('Seat booked successfully');
+      } else {
+        // Handle error response
+        console.error('Failed to book seat');
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error('Network error:', error);
     }
   };
   
-
 
   // ------------------------------- RENDER PAGE BELOW -------------------------------
   render() {

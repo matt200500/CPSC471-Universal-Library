@@ -29,7 +29,9 @@ export default class LoginPage extends Component {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
+      localStorage.setItem('user_id', data.user_id);
       this.setState({ UserData: data });
+      alert("Successfully logged in");
     } else {
       alert("Failed to login");
     }
@@ -38,7 +40,7 @@ export default class LoginPage extends Component {
   render() {
     return (
       <>
-      <div className="navigation">
+        <div className="navigation">
           <a href="/">Home</a>
           <a href="browse">Browse Books</a>
           <a href="events">Events/Programs</a>
@@ -47,32 +49,31 @@ export default class LoginPage extends Component {
           <a href="contact">Contact</a>
           <a href="login">Login</a>
           <a href="account">Account</a>
-      </div>
+        </div>
       <div className="login-stuff">
         <h1>Input your Username and Password Below</h1>
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
             name="user_id"
-            placeholder="user_id"
+            placeholder="User ID"
             onChange={this.handleInputChange}
             value={this.state.userId}
           />
           <input
             type="password"
             name="User_password"
-            placeholder="User_password"
+            placeholder="password"
             onChange={this.handleInputChange}
             value={this.state.password}
           />
           <button type="submit">Login</button>
         </form>
-        {this.state.UserData}
       </div>
-      <div className="signup-stuff">
-        <p>If you do not have an account, you can create one by pressing the button below:</p>
-        <a href="signup">Create Account</a>
-      </div>
+        <div className="signup-stuff">
+          <p>If you do not have an account, you can create one by pressing the button below:</p>
+          <a href="signup">Create Account</a>
+        </div>
       </>
     );
   }

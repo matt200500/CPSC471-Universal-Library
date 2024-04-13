@@ -159,12 +159,11 @@ class LoginView(APIView):
         user_id = request.GET.get('user_id')
         User_password = request.GET.get('User_password')
         queryset = User.objects.all()
-        user = User.objects.filter(user_id=user_id).first()
-        if user and check_password(user.User_password, User_password):
+        user = queryset.filter(user_id=user_id).first() 
+        if user and user.User_password == User_password:
             return JsonResponse({'user_id': user.user_id}, safe=False)
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=400)
-
 
 class SignupView(APIView):
     def post(self, request, *args, **kwargs):
