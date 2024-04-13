@@ -14,6 +14,14 @@ class AccountPage extends Component {
         }
     
     state = {
+        user_edit: {
+          user_id: "",
+          email: "",
+          firstname: "",
+          middlename: "",
+          lastname: "",
+          User_password: "",
+        },
         user: null,
         books: [],
         seats: [],
@@ -47,6 +55,43 @@ class AccountPage extends Component {
         console.error("Failed to fetch data");
         }
     }
+
+    handleInputChange = (event) => {
+      const { name, value } = event.target;
+      this.setState({
+        user_edit: {
+          ...this.state.user_edit,
+          [name]: value
+        }
+      });
+    };
+  
+    handleSubmit = async (e) => {
+      e.preventDefault();
+      const user_id1 = localStorage.getItem('user_id');
+      if (user_id == null) {
+        alert('User has not logged in');
+        return;
+      }
+  
+      this.setState({
+        user_edit: {
+          ...this.state.user_edit,
+          user_id: user_id1
+        }
+      });
+  
+      const { user_id, email, User_password, firstname, middlename, lastname } = this.state.user_edit;
+      const response = await fetch(`/api/edit-user?user_id=${user_id}&email=${email}&User_password=${User_password}&firstname=${firstname}&middlename=${middlename}&lastname=${lastname}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        this.setState({ randomData: data });
+        alert("Successfully changed account data");
+      } else {
+        alert("Failed to change data");
+      }
+    };
 
     render() {
         return (
@@ -102,6 +147,47 @@ class AccountPage extends Component {
                     </div>
                 )) : <p>No events applied for.</p>}
                 </div>
+            </div>
+            <div>
+            <p>Enter into the field the data you want to change</p>
+            <form onSubmit={this.handleSubmit}>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                onChange={this.handleInputChange}
+                value={this.state.user_edit.email}
+              />
+              <input
+                type="text"
+                name="firstname"
+                placeholder="First Name"
+                onChange={this.handleInputChange}
+                value={this.state.user_edit.firstname}
+              />
+              <input
+                type="text"
+                name="middlename"
+                placeholder="Middle Name"
+                onChange={this.handleInputChange}
+                value={this.state.user_edit.middlename}
+              />
+              <input
+                type="text"
+                name="lastname"
+                placeholder="Last Name"
+                onChange={this.handleInputChange}
+                value={this.state.user_edit.lastname}
+              />
+              <input
+                type="password"
+                name="User_password"
+                placeholder="Password"
+                onChange={this.handleInputChange}
+                value={this.state.user_edit.User_password}
+              />
+              <button type="submit">Edit</button>
+            </form>
             </div>
             </div>
             </>
