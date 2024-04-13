@@ -177,7 +177,11 @@ class SignupView(APIView):
             return Response(serializer.errors, status=400)
 
 class AccountView(APIView):
-    def get(self, request, user_id):
+    def get(self, request):
+        user_id = request.headers.get('userId')
+        if not user_id:
+            return Response({"error": "User ID not provided"}, status=400)
+
         user = User.objects.filter(user_id=user_id).first()
         if not user:
             return Response({"error": "User not found"}, status=404)
