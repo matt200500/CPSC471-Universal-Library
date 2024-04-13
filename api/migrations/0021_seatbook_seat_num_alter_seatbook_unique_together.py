@@ -11,14 +11,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='seatbook',
-            name='seat_num',
-            field=models.OneToOneField(db_column='Seat_num', default=1, on_delete=django.db.models.deletion.DO_NOTHING, to='api.seat'),
-            preserve_default=False,
-        ),
-        migrations.AlterUniqueTogether(
-            name='seatbook',
-            unique_together={('user', 'seat_num')},
-        ),
     ]

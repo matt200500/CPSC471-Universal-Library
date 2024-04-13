@@ -27,4 +27,6 @@ urlpatterns = [
     path('room-data/', RoomDataView.as_view(), name='room-data'),
     path('book-seat/', BookSeatView.as_view(), name='book_seat'),
     path('account/', AccountView.as_view(), name='account'),
+    path('browse-books/', BrowseBooksView.as_view()),
+    path('claim-book/', ClaimBookView.as_view()),
 ]

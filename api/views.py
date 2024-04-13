@@ -67,6 +67,24 @@ class PhoneView(generics.CreateAPIView):
     queryset = Phone.objects.all()
     serializer_class = PhoneSerializer 
 
+class BrowseBooksView(APIView):
+    def get(self, request):
+        # set variables accorind to filter when it is implemented
+        queryset = Book.objects.all()
+
+        data = list(queryset.values())
+        return JsonResponse(data, safe=False)
+
+class ClaimBookView(APIView):
+    def get(self, request):
+        is_disabled = request.GET.get('is_disabled');
+        book_id = request.GET.get('book_id');
+        user_id = request.GET.get('user_id');
+
+        try:
+
+        except:
+
 class SeatView(generics.CreateAPIView):
     queryset = Seat.objects.all()
     serializer_class = SeatSerializer
