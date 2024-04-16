@@ -373,21 +373,6 @@ class EditUser(APIView):
         data = list(queryset.values())
         return JsonResponse(data, safe=False)
 
-# class AccountView(APIView):
-#     def get(self, request):
-#         user_id = request.headers.get('userId')
-#         user = User.objects.filter(user_id=user_id).first()
-#         print(user_id)
-#         queryset = User.objects.all()
-#         queryset = queryset.filter(user_id=user_id)
-#         queryset = queryset.filter(email=user.email)
-#         queryset = queryset.filter(firstname=user.firstname)
-#         queryset = queryset.filter(middlename=user.middlename)
-#         queryset = queryset.filter(lastname=user.lastname)
-#         queryset = queryset.filter(User_password=user.User_password)
-#         data = list(queryset.values())
-#         return JsonResponse(data, safe=False)
-
 class AccountView(APIView):
     def get(self, request):
         user_id = request.headers.get('userId')
