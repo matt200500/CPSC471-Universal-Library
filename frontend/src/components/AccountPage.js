@@ -36,17 +36,15 @@ class AccountPage extends Component {
     });
     if (response.ok) {
       const data = await response.json();
-      this.setState({
-        user: data,
-      });
+      this.setState({user: data,});
     } else {
-      console.error("Failed to fetch data");
+      alert("Failed to fetch data");
     }
   }
 
   fetchBookRentData = async (e) => {
     e.preventDefault();
-    const { user, book, lending_time } = this.state.searchCriteria;
+    const user_id = this.state.user.user_id
     const response = await fetch(`/api/bookrent-data?user=${user_id}`);
     if (response.ok) {
       const data = await response.json();
@@ -56,6 +54,45 @@ class AccountPage extends Component {
       alert("Failed to fetch bookrent data");
     }
   };
+
+  fetchSeatBookData = async (e) => {
+    e.preventDefault();
+    const user_id = this.state.user.user_id
+    const response = await fetch(`/api/seatbook-data?user_id=${user_id}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.setState({ seats: data });
+    } else {
+      alert("Failed to fetch seatbook data");
+    }
+  };
+
+  fetchRoomBookData = async (e) => {
+    e.preventDefault();
+    const user_id = this.state.user.user_id
+    const response = await fetch(`/api/roombook-data?user=${user_id}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.setState({ rooms: data });
+    } else {
+      alert("Failed to fetch roombook data");
+    }
+  };
+
+  fetchEventApplyData = async (e) => {
+    e.preventDefault();
+    const user_id = this.state.user.user_id
+    const response = await fetch(`/api/eventapply-data?user=${user_id}`);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      this.setState({ events: data });
+    } else {
+      alert("Failed to fetch eventapply data");
+    }
+  }
 
   render() {
     return (
@@ -78,10 +115,33 @@ class AccountPage extends Component {
             <p>Email: {user.email}</p>
             <div>
               <h2>Your Book Rentals</h2>
-              {this.state.books.map(bookrent => 
+              {this.state.books.map(book => 
                 <tr key={book.book}>
                   <td>{book.book}</td>
                   <td>{book.lending_time}</td>
+                </tr>)}
+            </div>
+            <div>
+              <h2>Your Seat Bookings</h2>
+              {this.state.seats.map(seat => 
+                <tr key={seat.seat_number}>
+                  <td>{book.seat_number}</td>
+                  <td>{book.time}</td>
+                </tr>)}
+            </div>
+            <div>
+              <h2>Your Room Bookings</h2>
+              {this.state.rooms.map(room => 
+                <tr key={room.room}>
+                  <td>{room.room}</td>
+                  <td>{room.time}</td>
+                </tr>)}
+            </div>
+            <div>
+              <h2>Your Event Applications</h2>
+              {this.state.events.map(event => 
+                <tr key={event.event}>
+                  <td>{event.event}</td>
                 </tr>)}
             </div>
           </div>

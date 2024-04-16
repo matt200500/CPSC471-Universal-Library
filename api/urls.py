@@ -33,8 +33,10 @@ urlpatterns = [
     path('edit-user/', EditUser.as_view(), name='edit-user'),
     path('account/', AccountView.as_view(), name='account'),
     path('browse-books/', BrowseBooksView.as_view()),
+    path('claim-book/', ClaimBookView.as_view()),
     path('book-data/', BookDataView.as_view(), name="book-data"),
-    path('create-book/', CreateBookView.as_view(), name="create-book"),
-    path('rent-book/', RentBookView.as_view(), name="rent-book"),
     path('bookrent-data', BookRentDataView.as_view(), name="bookrent-data"),
+    path('seatbook-data', SeatBookDataView.as_view(), name="seatbook-data"),
+    path('roombook-data', RoomBookDataView.as_view(), name='roombook-data'),
+    path('eventapply-data', EventApplyDataView.as_view(), name='eventapply-data'),
 ]
