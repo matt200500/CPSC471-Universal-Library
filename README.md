@@ -68,6 +68,11 @@ We had a few issues with writing the migrations, especially the ones in the api/
 
 To start working with the workbench, after connecting to the previously made connection, create a new schema (if it is not already present under the Schemas tab) and name it to match the name present in the mysite/settings.py file mentioned earlier. After creating this new schema you may try the above migration commands again.
 
+The file below is a Dump file you can upload to your workbench which contains the original database
+```
+Dump20240416.sql
+```
+
 Depending on the error you may need to change the schema via the MySQL Workbench. You may need to create a table that is missing, remove or add a table attribute, etc.
 
 Different errors gotten from the migrate command you may need to go to the file and remove a redundant operation. For your information the migration that may cause an error will have the form <app>.<filename-without-extension> so the migration api.0026_rename_floor_no_studyroom_floorno_and_more will be found in folder api/migrations , in the file 0026_rename_floor_no_studyroom_floorno_and_more.py. Each operation is an item in the operations list.
